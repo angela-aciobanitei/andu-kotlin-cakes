@@ -33,40 +33,40 @@ data class NetworkStep(
 )
 
 
-fun NetworkRecipe.recipe(): Recipe {
-    return Recipe(
-        id = id,
-        name = name,
-        servings = servings,
-        image = image
-    )
-}
-
-
-fun NetworkRecipe.ingredients(): List<Ingredient> {
-    return ingredients.map {
-        Ingredient(
-            recipeId = id,
-            shortDescription = it.shortDescription,
-            description = it.description,
-            videoURL = it.videoURL,
-            thumbnailURL = it.thumbnailURL
-        )
-    }.toList()
-}
-
-
-fun NetworkRecipe.steps(): List<Step> {
-    return steps.map {
-        Step(
-            recipeId = id,
-            index = it.id,
-            quantity = it.quantity,
-            measure = it.measure,
-            ingredient = it.ingredient
-        )
-    }.toList()
-}
+//fun NetworkRecipe.recipe(): Recipe {
+//    return Recipe(
+//        id = id,
+//        name = name,
+//        servings = servings,
+//        image = image
+//    )
+//}
+//
+//
+//fun NetworkRecipe.ingredients(): List<Ingredient> {
+//    return ingredients.map {
+//        Ingredient(
+//            recipeId = id,
+//            shortDescription = it.shortDescription,
+//            description = it.description,
+//            videoURL = it.videoURL,
+//            thumbnailURL = it.thumbnailURL
+//        )
+//    }.toList()
+//}
+//
+//
+//fun NetworkRecipe.steps(): List<Step> {
+//    return steps.map {
+//        Step(
+//            recipeId = id,
+//            index = it.id,
+//            quantity = it.quantity,
+//            measure = it.measure,
+//            ingredient = it.ingredient
+//        )
+//    }.toList()
+//}
 
 
 

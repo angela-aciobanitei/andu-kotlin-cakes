@@ -15,43 +15,40 @@ data class Recipe(
 
 @Entity(tableName = "ingredients")
 data class Ingredient(
+    @PrimaryKey(autoGenerate = true)
+    val ingredientId: Int,
     val recipeId: Int,
     val shortDescription: String,
     val description: String,
     val videoURL: String,
     val thumbnailURL: String
-) {
-    @PrimaryKey(autoGenerate = true)
-    val ingredientId: Int = 0
-}
+)
 
 
 @Entity(tableName = "steps")
 data class Step(
+    @PrimaryKey(autoGenerate = true)
+    val stepId: Int,
     val recipeId: Int,
     val index: Int,
     val quantity: Double,
     val measure: String,
     val ingredient: String
-) {
-    @PrimaryKey(autoGenerate = true)
-    val stepId: Int = 0
-}
+)
 
 
 class RecipeDetails {
-
     @Embedded
     var recipe: Recipe? = null
 
     @Relation(
-        parentColumn = "ingredientId",
+        parentColumn = "id",
         entityColumn = "recipeId",
         entity = Ingredient::class)
     var ingredients: List<Ingredient>? = null
 
     @Relation(
-        parentColumn = "stepId",
+        parentColumn = "id",
         entityColumn = "recipeId",
         entity = Step::class)
     var steps: List<Step>? = null
