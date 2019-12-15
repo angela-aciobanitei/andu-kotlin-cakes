@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.ang.acb.baking.data.network.Resource" />
+        <import type="com.ang.acb.baking.data.network.Status" />
+        <variable name="resource" type="Resource" />
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/padding_normal"
+        android:gravity="center">
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_small"
+            app:visibleGone="@{resource.status == Status.LOADING}"
+            style="?android:attr/progressBarStyle"/>
+
+        <Button
+            android:id="@+id/retry_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_small"
+            android:text="@string/action_retry"
+            app:visibleGone="@{resource.status == Status.ERROR}"
+            style="@style/Widget.AppCompat.Button.Colored"/>
+
+        <TextView
+            android:id="@+id/error_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_small"
+            android:text="@{resource.message ?? @string/unknown_error}"
+            app:visibleGone="@{resource.status == Status.ERROR}"
+            style="@style/TextAppearance.AppCompat.Subhead"
+            tools:text="Invalid API key."/>
+    </LinearLayout>
+</layout>

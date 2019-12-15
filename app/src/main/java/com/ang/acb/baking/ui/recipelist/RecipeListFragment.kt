@@ -7,8 +7,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.ang.acb.baking.R
 import com.ang.acb.baking.databinding.FragmentRecipeListBinding
@@ -44,11 +48,26 @@ class RecipeListFragment : Fragment() {
 
         // Allow data binding to observe LiveData with the lifecycle of this fragment.
         binding.lifecycleOwner = this
-        binding.viewModel = viewModel
+
+        // Init adapter
+        val adapter = RecipesAdapter(
+            recipeClickListener = RecipeClickListener {
+                Toast.makeText(requireContext(), it?.toString(), Toast.LENGTH_SHORT).show()
+            })
+        binding.rvRecipeList.adapter = adapter
+        binding.rvRecipeList.addItemDecoration(
+            DividerItemDecoration(requireContext(),
+            LinearLayoutManager.VERTICAL ))
+
+        viewModel.simpleRecipes.observe(viewLifecycleOwner, Observer {
+            adapter.submitList(it)
+        })
+
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+
     }
 }
