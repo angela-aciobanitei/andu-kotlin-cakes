@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph.xml"
+    app:startDestination="@id/recipeListFragment">
+
+    <fragment
+        android:id="@+id/recipeListFragment"
+        android:name="com.ang.acb.baking.ui.recipelist.RecipeListFragment"
+        android:label="fragment_recipe_list"
+        tools:layout="@layout/fragment_recipe_list" >
+        <action
+            android:id="@+id/action_recipeListFragment_to_recipeDetailsFragment"
+            app:destination="@id/recipeDetailsFragment"
+            app:popUpTo="@+id/recipeListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/recipeDetailsFragment"
+        android:name="com.ang.acb.baking.ui.recipedetails.RecipeDetailsFragment"
+        android:label="fragment_recipe_details"
+        tools:layout="@layout/fragment_recipe_details" >
+        <argument
+            android:name="recipeId"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <action
+            android:id="@+id/action_recipeDetailsFragment_to_stepDetailsFragment"
+            app:destination="@id/stepDetailsFragment"
+            app:popUpTo="@+id/recipeDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/stepDetailsFragment"
+        android:name="com.ang.acb.baking.ui.recipedetails.StepDetailsFragment"
+        android:label="fragment_step_details"
+        tools:layout="@layout/fragment_step_details" >
+        <argument
+            android:name="recipeId"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
+</navigation>

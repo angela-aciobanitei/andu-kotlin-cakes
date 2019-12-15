@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 
 import com.ang.acb.baking.R
+import com.ang.acb.baking.databinding.FragmentRecipeListBinding
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
@@ -38,9 +39,16 @@ class RecipeListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recipe_list, container, false)
+        // Inflate layout for this fragment and get an instance of the binding class.
+        val binding = FragmentRecipeListBinding.inflate(inflater)
+
+        // Allow data binding to observe LiveData with the lifecycle of this fragment.
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
+        return binding.root
     }
 
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+    }
 }

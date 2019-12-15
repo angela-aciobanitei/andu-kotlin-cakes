@@ -6,22 +6,22 @@ import androidx.room.*
 @Entity(tableName = "recipes")
 data class Recipe(
     @PrimaryKey
-    val id: Int,
-    val name: String,
-    val servings: Int,
-    val image: String
+    val id: Int?,
+    val name: String?,
+    val servings: Int?,
+    val image: String?
 )
 
 
 @Entity(tableName = "ingredients")
 data class Ingredient(
     @PrimaryKey(autoGenerate = true)
-    val ingredientId: Int,
-    val recipeId: Int,
-    val shortDescription: String,
-    val description: String,
-    val videoURL: String,
-    val thumbnailURL: String
+    val ingredientId: Long,
+    val recipeId: Int?,
+    val shortDescription: String?,
+    val description: String?,
+    val videoURL: String?,
+    val thumbnailURL: String?
 )
 
 
@@ -29,11 +29,11 @@ data class Ingredient(
 data class Step(
     @PrimaryKey(autoGenerate = true)
     val stepId: Int,
-    val recipeId: Int,
-    val index: Int,
-    val quantity: Double,
-    val measure: String,
-    val ingredient: String
+    val recipeId: Int?,
+    val index: Int?,
+    val quantity: Double?,
+    val measure: String?,
+    val ingredient: String?
 )
 
 

@@ -118,7 +118,7 @@ abstract class NetworkBoundResource<ResultType, RequestType>
      * @param: <RequestType> Type for the API response (remote data).
      */
     @WorkerThread
-    protected abstract fun saveCallResult(item: RequestType)
+    protected abstract fun saveCallResult(result: RequestType)
 
     protected open fun onFetchFailed() {}
 
