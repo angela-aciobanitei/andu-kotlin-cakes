@@ -45,5 +45,9 @@
             android:name="stepId"
             app:argType="integer"
             android:defaultValue="0" />
+        <argument
+            android:name="stepPosition"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
 </navigation>

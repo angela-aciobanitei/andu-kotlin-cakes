@@ -28,7 +28,6 @@ android {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
     }
-
     kotlinOptions {
         jvmTarget = "1.8"
     }
@@ -42,12 +41,7 @@ dependencies {
 
     // Core
     implementation "androidx.core:core:$version_core"
-
-    // Android KTX
     implementation "androidx.core:core-ktx:$version_core"
-
-    // Fragment KTX
-    implementation "androidx.fragment:fragment-ktx:$version_fragment_ktx"
 
     // Support libs
     implementation "androidx.appcompat:appcompat:$version_app_compat"
@@ -57,10 +51,11 @@ dependencies {
     implementation "androidx.cardview:cardview:$version_cardview"
     implementation "androidx.palette:palette:$version_palette"
     implementation "com.google.android.material:material:$version_material"
+    implementation "androidx.fragment:fragment-ktx:$version_fragment_ktx"
 
     // Room for Databases
     implementation "androidx.room:room-runtime:$version_room"
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation "androidx.room:room-ktx:$version_room"
     kapt "androidx.room:room-compiler:$version_room"
 
     // LiveData, ViewModel, Lifecycle

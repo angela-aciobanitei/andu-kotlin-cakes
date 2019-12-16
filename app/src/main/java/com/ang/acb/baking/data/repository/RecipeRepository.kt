@@ -52,11 +52,11 @@ class RecipeRepository
         return database.recipeDao.getRecipeDetails(recipeId)
     }
 
-    fun getRecipeSteps(recipeId: Int): LiveData<List<Step>> {
-        return database.recipeDao.getRecipeSteps(recipeId)
-    }
-
     fun getRecipeIngredients(recipeId: Int): LiveData<List<Ingredient>> {
         return database.recipeDao.getRecipeIngredients(recipeId)
+    }
+
+    fun getRecipeSteps(recipeId: Int): LiveData<List<Step>> {
+        return database.recipeDao.getRecipeSteps(recipeId)
     }
 }

@@ -19,7 +19,7 @@ class StepsAdapter(val stepClickListener: StepClickListener) :
 
 
     override fun onBindViewHolder(holder: StepViewHolder, position: Int) {
-        holder.bind(stepClickListener,getItem(position))
+        holder.bind(stepClickListener,getItem(position), position)
     }
 }
 
@@ -27,9 +27,10 @@ class StepsAdapter(val stepClickListener: StepClickListener) :
 class StepViewHolder constructor(val binding: ItemStepBinding)
     : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(stepClickListener: StepClickListener, step: Step) {
+    fun bind(stepClickListener: StepClickListener, step: Step, position: Int) {
         binding.step = step
         binding.stepClickListener = stepClickListener
+        binding.stepPosition = position
         binding.executePendingBindings()
     }
 
@@ -55,6 +56,6 @@ class StepDiffCallback : DiffUtil.ItemCallback<Step>() {
 }
 
 
-class StepClickListener(val clickListener: (id:Int?) -> Unit){
-    fun onClick(step: Step) = clickListener(step.stepId)
+class StepClickListener(val clickListener: (id:Int?, position:Int) -> Unit){
+    fun onClick(step: Step, position:Int) = clickListener(step.stepId, position)
 }

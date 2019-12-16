@@ -11,16 +11,19 @@
         <variable
             name="stepClickListener"
             type="com.ang.acb.baking.ui.recipedetails.StepClickListener" />
+        <variable
+            name="stepPosition"
+            type="Integer" />
     </data>
 
-    <androidx.cardview.widget.CardView
+    <FrameLayout
         android:id="@+id/step_item_card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
-        android:onClick="@{() -> stepClickListener.onClick(step)}">
+        android:onClick="@{() -> stepClickListener.onClick(step, stepPosition)}">
 
         <TextView
             android:id="@+id/step_item_short_description"
@@ -28,11 +31,11 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/padding_mini"
             android:text="@{step.shortDescription}"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-            android:drawableStart="@drawable/ic_arrow_forward_black_24dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
             android:drawablePadding="@dimen/padding_small"
             tools:text="Start prep" />
 
-    </androidx.cardview.widget.CardView>
+    </FrameLayout>
 
 </layout>
