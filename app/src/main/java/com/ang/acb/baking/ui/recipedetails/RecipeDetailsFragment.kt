@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 
 import com.ang.acb.baking.databinding.FragmentRecipeDetailsBinding
 import com.ang.acb.baking.utils.autoCleared
@@ -22,7 +23,9 @@ class RecipeDetailsFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val viewModel: RecipeDetailsViewModel by viewModels { viewModelFactory }
+    // Use delegated properties: val/var <property name>: <Type> by <expression>.
+    private val viewModel: RecipeDetailsViewModel by viewModels() { viewModelFactory }
+    private val args: RecipeDetailsFragmentArgs by navArgs()
     private var binding: FragmentRecipeDetailsBinding by autoCleared()
 
     override fun onAttach(context: Context) {
@@ -37,11 +40,8 @@ class RecipeDetailsFragment : Fragment() {
         binding = FragmentRecipeDetailsBinding.inflate(inflater)
         binding.lifecycleOwner = this
 
-        // FIXME Get arguments from safe args
-        // val arguments = RecipeDetailsFragmentArgs.fromBundle(arguments!!)
-        // viewModel.setId(arguments.recipeId)
-        val recipeId = arguments?.getInt("recipeId")
-        recipeId?.let { viewModel.setId(it) }
+        // Save the recipe ID sent via Navigation safe args
+        viewModel.setId(args.recipeId)
 
         return binding.root
     }

@@ -34,7 +34,7 @@ class RecipeListFragment : Fragment() {
 
     // Use Fragment KTX to init view model
     private val viewModel: RecipeListViewModel by viewModels { viewModelFactory }
-    private var binding by autoCleared<FragmentRecipeListBinding>()
+    private var binding: FragmentRecipeListBinding by autoCleared()
 
     override fun onAttach(context: Context) {
         // When using Dagger with Fragments, inject as early as possible.
@@ -76,10 +76,8 @@ class RecipeListFragment : Fragment() {
         viewModel.navigateToRecipeDetails.observe(viewLifecycleOwner, Observer {
             // Only proceed if the event has never been handled.
             it.getContentIfNotHandled()?.let{recipeId ->
-                val bundle = bundleOf("recipeId" to recipeId)
-                this.findNavController().navigate(R.id.action_show_recipe_details, bundle)
-                // val action  = RecipeListFragmentDirections.actionShowRecipeDetails(recipeId)
-                // this.findNavController().navigate(action)
+                val action  = RecipeListFragmentDirections.actionShowRecipeDetails(recipeId)
+                this.findNavController().navigate(action)
             }
         })
     }
