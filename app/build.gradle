@@ -41,7 +41,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$version_kotlin"
 
     // Android KTX
-    implementation "androidx.core:core-ktx:$version_core"
+    implementation "androidx.core:core-ktx:$version_core_ktx"
 
     // Fragment KTX
     implementation "androidx.fragment:fragment-ktx:$version_fragment_ktx"
@@ -65,10 +65,6 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$version_lifecycle"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$version_lifecycle"
 
-    // Kotlin Coroutines for getting work off the UI thread
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version_kotlin_coroutines"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version_kotlin_coroutines"
-
     // Navigation
     implementation "android.arch.navigation:navigation-fragment-ktx:$version_navigation"
     implementation "android.arch.navigation:navigation-ui-ktx:$version_navigation"
@@ -77,9 +73,6 @@ dependencies {
     implementation "com.squareup.moshi:moshi:$version_moshi"
     implementation "com.squareup.moshi:moshi-kotlin:$version_moshi"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:$version_moshi"
-
-    // GSON
-    implementation "com.google.code.gson:gson:$version_gson"
 
     // Retrofit for networking
     implementation "com.squareup.retrofit2:retrofit:$version_retrofit"
@@ -91,9 +84,6 @@ dependencies {
     // Glide for image loading and caching
     implementation "com.github.bumptech.glide:glide:$version_glide"
     kapt "com.github.bumptech.glide:compiler:$version_glide"
-
-    // Joda Time for dealing with date and time
-    implementation "joda-time:joda-time:$version_joda"
 
     // Timber for logging
     implementation "com.jakewharton.timber:timber:$version_timber"

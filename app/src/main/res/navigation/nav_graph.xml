@@ -11,7 +11,7 @@
         android:label="fragment_recipe_list"
         tools:layout="@layout/fragment_recipe_list" >
         <action
-            android:id="@+id/action_recipeListFragment_to_recipeDetailsFragment"
+            android:id="@+id/action_show_recipe_details"
             app:destination="@id/recipeDetailsFragment"
             app:popUpTo="@+id/recipeListFragment" />
     </fragment>
@@ -26,7 +26,7 @@
             app:argType="integer"
             android:defaultValue="0" />
         <action
-            android:id="@+id/action_recipeDetailsFragment_to_stepDetailsFragment"
+            android:id="@+id/action_show_step_details"
             app:destination="@id/stepDetailsFragment"
             app:popUpTo="@+id/recipeDetailsFragment" />
     </fragment>
@@ -38,6 +38,10 @@
         tools:layout="@layout/fragment_step_details" >
         <argument
             android:name="recipeId"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="stepId"
             app:argType="integer"
             android:defaultValue="0" />
     </fragment>
