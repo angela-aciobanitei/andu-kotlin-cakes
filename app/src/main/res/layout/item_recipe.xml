@@ -30,8 +30,6 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             android:drawableStart="@drawable/ic_cake_black_24dp"
             android:drawablePadding="@dimen/padding_small"
-            android:layout_gravity="start"
-            android:gravity="center"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Apple Blood Orange Buckle" />

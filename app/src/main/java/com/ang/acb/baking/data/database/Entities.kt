@@ -16,7 +16,7 @@ data class Recipe(
 @Entity(tableName = "ingredients")
 data class Ingredient(
     @PrimaryKey(autoGenerate = true)
-    val ingredientId: Long,
+    val ingredientId: Int,
     val recipeId: Int?,
     val quantity: Double?,
     val measure: String?,
@@ -35,6 +35,7 @@ data class Step(
     val videoURL: String?,
     val thumbnailURL: String?
 )
+
 
 // See: https://android.jlelse.eu/android-architecture-components-room-relationships-bf473510c14a
 class RecipeDetails {

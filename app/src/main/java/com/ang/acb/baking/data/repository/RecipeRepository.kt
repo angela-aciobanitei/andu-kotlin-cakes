@@ -42,7 +42,7 @@ class RecipeRepository
             }
 
             override fun loadFromDb(): LiveData<List<RecipeDetails>> {
-                return database.recipeDao.getAllRecipes()
+                return database.recipeDao.getDetailedRecipes()
             }
         }.asLiveData()
     }

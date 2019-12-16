@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="step"
+            type="com.ang.acb.baking.data.database.Step"/>
+        <variable
+            name="stepClickListener"
+            type="com.ang.acb.baking.ui.recipedetails.StepClickListener" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/step_item_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:onClick="@{() -> stepClickListener.onClick(step)}">
+
+        <TextView
+            android:id="@+id/step_item_short_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_mini"
+            android:text="@{step.shortDescription}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:drawableStart="@drawable/ic_arrow_forward_black_24dp"
+            android:drawablePadding="@dimen/padding_small"
+            tools:text="Start prep" />
+
+    </androidx.cardview.widget.CardView>
+
+</layout>

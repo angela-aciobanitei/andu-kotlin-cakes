@@ -41,7 +41,7 @@ abstract class RecipeDao {
 
     @Transaction
     @Query("SELECT * FROM recipes")
-    abstract fun getAllRecipes(): LiveData<List<RecipeDetails>>
+    abstract fun getDetailedRecipes(): LiveData<List<RecipeDetails>>
 }
 
 

@@ -6,4 +6,6 @@
 
     <string name="action_retry">Retry</string>
     <string name="unknown_error">Unknown error</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="steps">Steps</string>
 </resources>

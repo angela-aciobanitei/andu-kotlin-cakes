@@ -1,46 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <variable
-            name="recipeDetails"
-            type="com.ang.acb.baking.data.database.RecipeDetails" />
-        <variable
-            name="recipeClickListener"
-            type="com.ang.acb.baking.ui.recipelist.RecipeClickListener" />
-    </data>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:context=".ui.recipedetails.RecipeDetailsFragment"
-            android:layout_margin="@dimen/margin_normal"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:descendantFocusability="blocksDescendants"
+            tools:showIn="@layout/fragment_recipe_details">
 
             <TextView
+                android:id="@+id/label_ingredients"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{recipeDetails.recipe.toString()}"/>
+                android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginStart="@dimen/margin_normal"
+                android:layout_marginEnd="@dimen/margin_normal"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                android:text="@string/ingredients" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_ingredients"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_normal"
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/label_steps"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{recipeDetails.ingredients.toString()}"/>
+                android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginStart="@dimen/margin_normal"
+                android:layout_marginEnd="@dimen/margin_normal"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                android:text="@string/steps" />
 
-            <TextView
-                android:layout_width="wrap_content"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_steps"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{recipeDetails.steps.toString()}"/>
+                android:layout_margin="@dimen/margin_normal"
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
         </LinearLayout>
-    </ScrollView>
-
-
+    </androidx.core.widget.NestedScrollView>
 
 </layout>

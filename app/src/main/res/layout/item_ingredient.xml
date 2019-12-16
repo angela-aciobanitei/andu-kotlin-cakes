@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="ingredient"
+            type="com.ang.acb.baking.data.database.Ingredient"/>
+    </data>
+
+
+    <TextView
+        android:id="@+id/ingredient_item_quantity"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:padding="@dimen/padding_mini"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+        android:text="@{String.valueOf(ingredient.quantity) + ingredient.measure + ingredient.ingredient}"
+        android:drawableStart="@drawable/ic_arrow_forward_black_24dp"
+        android:drawablePadding="8dp"
+        tools:text="5 cups sugar" />
+
+</layout>
