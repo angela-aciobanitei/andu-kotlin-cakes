@@ -40,8 +40,11 @@ dependencies {
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$version_kotlin"
 
+    // Core
+    implementation "androidx.core:core:$version_core"
+
     // Android KTX
-    implementation "androidx.core:core-ktx:$version_core_ktx"
+    implementation "androidx.core:core-ktx:$version_core"
 
     // Fragment KTX
     implementation "androidx.fragment:fragment-ktx:$version_fragment_ktx"

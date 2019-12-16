@@ -47,12 +47,9 @@ class RecipeRepository
         }.asLiveData()
     }
 
-    fun getSimpleRecipes(): LiveData<List<Recipe>> {
-        return database.recipeDao.getSimpleRecipes()
-    }
 
-    fun getSimpleRecipe(recipeId: Int): LiveData<Recipe> {
-        return database.recipeDao.getSimpleRecipe(recipeId)
+    fun getRecipeDetails(recipeId: Int): LiveData<RecipeDetails> {
+        return database.recipeDao.getRecipeDetails(recipeId)
     }
 
     fun getRecipeSteps(recipeId: Int): LiveData<List<Step>> {

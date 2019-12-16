@@ -18,10 +18,9 @@ data class Ingredient(
     @PrimaryKey(autoGenerate = true)
     val ingredientId: Long,
     val recipeId: Int?,
-    val shortDescription: String?,
-    val description: String?,
-    val videoURL: String?,
-    val thumbnailURL: String?
+    val quantity: Double?,
+    val measure: String?,
+    val ingredient: String?
 )
 
 
@@ -31,12 +30,13 @@ data class Step(
     val stepId: Int,
     val recipeId: Int?,
     val index: Int?,
-    val quantity: Double?,
-    val measure: String?,
-    val ingredient: String?
+    val shortDescription: String?,
+    val description: String?,
+    val videoURL: String?,
+    val thumbnailURL: String?
 )
 
-
+// See: https://android.jlelse.eu/android-architecture-components-room-relationships-bf473510c14a
 class RecipeDetails {
     @Embedded
     var recipe: Recipe? = null

@@ -47,7 +47,7 @@ abstract class RecipeDao {
 
 @Database(
     entities = [Recipe::class, Ingredient::class, Step::class],
-    version = 2,
+    version = 3,
     exportSchema = false)
 abstract class RecipesDatabase : RoomDatabase() {
     abstract val recipeDao: RecipeDao

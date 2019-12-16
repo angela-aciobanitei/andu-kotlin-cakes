@@ -7,10 +7,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,7 +35,6 @@ class RecipeListFragment : Fragment() {
     // Use Fragment KTX to init view model
     private val viewModel: RecipeListViewModel by viewModels { viewModelFactory }
     private var binding by autoCleared<FragmentRecipeListBinding>()
-    private var adapter by autoCleared<RecipesAdapter>()
 
     override fun onAttach(context: Context) {
         // When using Dagger with Fragments, inject as early as possible.
@@ -75,8 +75,11 @@ class RecipeListFragment : Fragment() {
 
         viewModel.navigateToRecipeDetails.observe(viewLifecycleOwner, Observer {
             // Only proceed if the event has never been handled.
-            it.getContentIfNotHandled()?.let{
-                this.findNavController().navigate(RecipeListFragmentDirections.actionShowRecipeDetails())
+            it.getContentIfNotHandled()?.let{recipeId ->
+                val bundle = bundleOf("recipeId" to recipeId)
+                this.findNavController().navigate(R.id.action_show_recipe_details, bundle)
+                // val action  = RecipeListFragmentDirections.actionShowRecipeDetails(recipeId)
+                // this.findNavController().navigate(action)
             }
         })
     }

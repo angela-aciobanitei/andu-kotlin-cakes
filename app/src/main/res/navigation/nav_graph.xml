@@ -13,7 +13,12 @@
         <action
             android:id="@+id/action_show_recipe_details"
             app:destination="@id/recipeDetailsFragment"
-            app:popUpTo="@+id/recipeListFragment" />
+            app:popUpTo="@+id/recipeListFragment" >
+            <argument
+                android:name="recipeId"
+                app:argType="integer"
+                android:defaultValue="0" />
+        </action>
     </fragment>
 
     <fragment

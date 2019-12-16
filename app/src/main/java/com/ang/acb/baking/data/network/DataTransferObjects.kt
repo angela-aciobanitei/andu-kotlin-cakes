@@ -16,7 +16,9 @@ data class NetworkRecipe(
     val steps: List<NetworkStep>?
 )
 
-data class NetworkIngredient(
+data class NetworkStep(
+    @Json(name = "id")
+    val id: Int?,
     val shortDescription: String?,
     val description: String?,
     val videoURL: String?,
@@ -24,9 +26,7 @@ data class NetworkIngredient(
 )
 
 
-data class NetworkStep(
-    @Json(name = "id")
-    val id: Int?,
+data class NetworkIngredient(
     val quantity: Double?,
     val measure: String?,
     val ingredient: String?
@@ -49,10 +49,9 @@ fun NetworkRecipe.ingredients(): List<Ingredient>? {
         Ingredient(
             ingredientId = 0,
             recipeId = id,
-            shortDescription = it.shortDescription,
-            description = it.description,
-            videoURL = it.videoURL,
-            thumbnailURL = it.thumbnailURL
+            quantity = it.quantity,
+            measure = it.measure,
+            ingredient = it.ingredient
         )
     }?.toList()
 }
@@ -64,9 +63,10 @@ fun NetworkRecipe.steps(): List<Step>? {
             stepId = 0,
             recipeId = id,
             index = it.id,
-            quantity = it.quantity,
-            measure = it.measure,
-            ingredient = it.ingredient
+            shortDescription = it.shortDescription,
+            description = it.description,
+            videoURL = it.videoURL,
+            thumbnailURL = it.thumbnailURL
         )
     }?.toList()
 }
