@@ -56,6 +56,6 @@ class StepDiffCallback : DiffUtil.ItemCallback<Step>() {
 }
 
 
-class StepClickListener(val clickListener: (id:Int?, position:Int) -> Unit){
-    fun onClick(step: Step, position:Int) = clickListener(step.stepId, position)
+class StepClickListener(val clickListener: (position:Int) -> Unit){
+    fun onClick(position:Int) = clickListener(position)
 }

@@ -67,7 +67,7 @@ class RecipeDetailsFragment : Fragment() {
 
     private fun observeSteps() {
         val stepsAdapter = StepsAdapter(
-            stepClickListener = StepClickListener { _, position  ->
+            stepClickListener = StepClickListener { position  ->
                 viewModel.navigateToStepDetailsEvent(position)
             }
         )

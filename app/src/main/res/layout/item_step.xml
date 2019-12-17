@@ -23,7 +23,7 @@
         android:clickable="true"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
-        android:onClick="@{() -> stepClickListener.onClick(step, stepPosition)}">
+        android:onClick="@{() -> stepClickListener.onClick(stepPosition)}">
 
         <TextView
             android:id="@+id/step_item_short_description"

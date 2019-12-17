@@ -8,9 +8,12 @@
         <variable
             name="step"
             type="com.ang.acb.baking.data.database.Step"/>
+        <variable
+            name="stepDetailsViewModel"
+            type="com.ang.acb.baking.ui.recipedetails.StepDetailsViewModel" />
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/step_item_card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -19,11 +22,54 @@
             android:id="@+id/step_item_short_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/padding_mini"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/margin_normal"
+            android:text="@{step.shortDescription}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Add sugars to wet mixture." />
+
+        <TextView
+            android:id="@+id/step_item_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/margin_normal"
             android:text="@{step.description}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-            tools:text="Start prep" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/step_item_short_description"
+            tools:text="3. Mix both sugars into the melted chocolate in a large mixing bowl until mixture is smooth and uniform." />
 
-    </FrameLayout>
+        <Button
+            android:id="@+id/prev_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/margin_normal"
+            android:text="@string/previous"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/step_item_description"
+            style="@style/Widget.AppCompat.Button.Colored"/>
+
+        <Button
+            android:id="@+id/next_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/margin_normal"
+            android:text="@string/next"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/step_item_description"
+            style="@style/Widget.AppCompat.Button.Colored"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
