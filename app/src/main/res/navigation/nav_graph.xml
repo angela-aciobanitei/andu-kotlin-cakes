@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/recipeListFragment"
         android:name="com.ang.acb.baking.ui.recipelist.RecipeListFragment"
-        android:label="fragment_recipe_list"
+        android:label="@string/fragment_recipe_list"
         tools:layout="@layout/fragment_recipe_list" >
         <action
             android:id="@+id/action_show_recipe_details"
@@ -20,7 +20,6 @@
     <fragment
         android:id="@+id/recipeDetailsFragment"
         android:name="com.ang.acb.baking.ui.recipedetails.RecipeDetailsFragment"
-        android:label="fragment_recipe_details"
         tools:layout="@layout/fragment_recipe_details" >
         <action
             android:id="@+id/action_show_step_details"
@@ -35,7 +34,6 @@
     <fragment
         android:id="@+id/stepDetailsFragment"
         android:name="com.ang.acb.baking.ui.recipedetails.StepDetailsFragment"
-        android:label="fragment_step_details"
         tools:layout="@layout/fragment_step_details" >
         <argument
             android:name="recipeId"

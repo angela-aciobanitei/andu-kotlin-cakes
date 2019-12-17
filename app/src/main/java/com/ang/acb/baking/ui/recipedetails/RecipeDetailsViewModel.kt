@@ -14,14 +14,6 @@ class RecipeDetailsViewModel
     // Stores the current recipe ID.
     private val _recipeId = MutableLiveData<Int>()
 
-    val ingredients = Transformations.switchMap(_recipeId) {
-        recipesRepository.getRecipeIngredients(it)
-    }
-
-    val steps = Transformations.switchMap(_recipeId) {
-        recipesRepository.getRecipeSteps(it)
-    }
-
     val recipeDetails = Transformations.switchMap(_recipeId) {
         recipesRepository.getRecipeDetails(it)
     }
@@ -29,8 +21,7 @@ class RecipeDetailsViewModel
     fun setId(id: Int) {
         _recipeId.value = id
     }
-
-
+    
     // Handles navigation to the selected step details.
     private val _navigateToStepDetails = MutableLiveData<Event<Int>>()
     val navigateToStepDetails: LiveData<Event<Int>>
