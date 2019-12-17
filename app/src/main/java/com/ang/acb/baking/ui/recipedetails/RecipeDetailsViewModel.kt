@@ -21,7 +21,7 @@ class RecipeDetailsViewModel
     fun setId(id: Int) {
         _recipeId.value = id
     }
-    
+
     // Handles navigation to the selected step details.
     private val _navigateToStepDetails = MutableLiveData<Event<Int>>()
     val navigateToStepDetails: LiveData<Event<Int>>

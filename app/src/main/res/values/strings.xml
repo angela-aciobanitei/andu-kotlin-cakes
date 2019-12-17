@@ -11,4 +11,5 @@
     <string name="previous">Previous</string>
     <string name="next">Next</string>
     <string name="fragment_recipe_list">Recipes</string>
+    <string name="exoplayer_placeholder_image">ExoPlayer placehoder image</string>
 </resources>

@@ -41,6 +41,8 @@ class StepDetailsViewModel
         }
 
         val stepIndexLiveData = _currentPosition
+        // FIXME: on phone rotation: IllegalArgumentException:
+        //  This source was already added with the different observer
         _currentStep.addSource(stepIndexLiveData) { newIndex: Int? ->
             if (newIndex != null && stepsLiveData.value != null) {
                 _currentStep.value = stepsLiveData.value!![newIndex]
