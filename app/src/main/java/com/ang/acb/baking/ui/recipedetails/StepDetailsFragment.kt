@@ -68,9 +68,9 @@ class StepDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         restoreInstanceState(savedInstanceState)
 
-        viewModel.currentStep.observe(viewLifecycleOwner, Observer {
-            binding.step = it
-            handleVideoUrl(it)
+        viewModel.step.observe(viewLifecycleOwner, Observer {stepResource ->
+            binding.step = stepResource.data
+            stepResource.data?.let { step -> handleVideoUrl(step) }
             handleStepButtons()
         })
     }

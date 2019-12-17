@@ -2,6 +2,7 @@ package com.ang.acb.baking.ui.recipedetails
 
 import androidx.lifecycle.*
 import com.ang.acb.baking.data.database.Step
+import com.ang.acb.baking.data.network.Resource
 import com.ang.acb.baking.data.repository.RecipeRepository
 import javax.inject.Inject
 
@@ -9,15 +10,17 @@ class StepDetailsViewModel
 @Inject constructor(private val recipesRepository: RecipeRepository): ViewModel() {
 
     private val _recipeId = MutableLiveData<Int>()
+
     private val _currentPosition = MutableLiveData<Int>()
+    private val currentPosition: LiveData<Int>
+        get() = _currentPosition
 
-    private val _currentStep = MediatorLiveData<Step>()
-    val currentStep: MediatorLiveData<Step>
-        get() = getStep()
 
-    val steps = Transformations.switchMap(_recipeId) {
+    private val steps = Transformations.switchMap(_recipeId) {
         recipesRepository.getRecipeSteps(it)
     }
+
+    val step = currentStep()
 
     private var _stepsSize = 0
 
@@ -26,31 +29,43 @@ class StepDetailsViewModel
         _currentPosition.value = stepPosition
     }
 
-    private fun getStep(): MediatorLiveData<Step> {
-        // The list of steps might change, but also the step position,
-        // so we need to listen to the changes of these two different
-        // LiveData objects.
-        val stepsLiveData = Transformations
-            .switchMap(_recipeId) { recipesRepository.getRecipeSteps(it) }
 
-        _currentStep.addSource(stepsLiveData) { newSteps ->
-            if (newSteps != null && _currentPosition.value != null) {
-                _stepsSize = newSteps.size
-                _currentStep.value = newSteps[_currentPosition.value!!]
-            }
+    // See: https://medium.com/androiddevelopers/livedata-beyond-the-viewmodel-reactive-patterns-using-transformations-and-mediatorlivedata-fda520ba00b7
+    private fun currentStep(): MediatorLiveData<Resource<Step>> {
+
+        val positionResult = currentPosition
+        val stepsResult = steps
+
+        val result = MediatorLiveData<Resource<Step>>()
+
+        result.addSource(positionResult) {
+            result.value = combineLatestData(positionResult, stepsResult)
         }
-
-        val stepIndexLiveData = _currentPosition
-        // FIXME: on phone rotation: IllegalArgumentException:
-        //  This source was already added with the different observer
-        _currentStep.addSource(stepIndexLiveData) { newIndex: Int? ->
-            if (newIndex != null && stepsLiveData.value != null) {
-                _currentStep.value = stepsLiveData.value!![newIndex]
-            }
+        result.addSource(stepsResult) {
+            result.value = combineLatestData(positionResult, stepsResult)
         }
-
-        return _currentStep
+        return result
     }
+
+
+    private fun combineLatestData(
+        positionResult: LiveData<Int>,
+        stepsResult: LiveData<List<Step>>
+    ): Resource<Step> {
+
+        val position = positionResult.value
+        val steps = stepsResult.value
+
+        return if(position != null && steps != null) {
+            _stepsSize = steps.size
+            Resource.success(steps[position])
+        }else if(position == null || steps == null) {
+            Resource.loading(null)
+        } else {
+            Resource.error("Error", null)
+        }
+    }
+
 
     fun hasPrev():Boolean {
         // pos > 0
@@ -73,9 +88,5 @@ class StepDetailsViewModel
         if (hasNext()){
             _currentPosition.value = _currentPosition.value?.plus(1)
         }
-    }
-
-    fun currentPos(): Int {
-        return _currentPosition.value!!
     }
 }
