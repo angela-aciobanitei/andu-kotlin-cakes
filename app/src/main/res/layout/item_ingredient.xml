@@ -16,13 +16,14 @@
 
         <TextView
             android:id="@+id/ingredient_item_quantity"
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:padding="@dimen/padding_mini"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-            android:text="@{String.valueOf(ingredient.quantity) + ingredient.measure + ingredient.ingredient}"
+            android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_check_circle_black_24dp"
             android:drawablePadding="8dp"
+            android:fontFamily="@font/jacques_francois"
+            android:padding="@dimen/padding_mini"
+            android:text="@{@string/ingredient_item(ingredient.quantity, ingredient.measure, ingredient.ingredient )}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             tools:text="5 cups sugar" />
 
     </FrameLayout>
