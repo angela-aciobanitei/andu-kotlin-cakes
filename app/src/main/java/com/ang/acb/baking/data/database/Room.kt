@@ -2,7 +2,6 @@ package com.ang.acb.baking.data.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.ang.acb.baking.data.network.NetworkRecipe
 
 @Dao
 abstract class RecipeDao {
@@ -38,6 +37,10 @@ abstract class RecipeDao {
     @Transaction
     @Query("SELECT * FROM recipes WHERE id = :recipeId")
     abstract fun getRecipeDetails(recipeId: Int): LiveData<RecipeDetails>
+
+    @Transaction
+    @Query("SELECT * FROM recipes WHERE id= :recipeId")
+    abstract fun getRecipeDetailsForWidget(recipeId: Int?): RecipeDetails
 
     @Transaction
     @Query("SELECT * FROM recipes")

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The AppWidgetProviderInfo defines the essential qualities of an App Widget,
+such as its minimum layout dimensions, its initial layout resource, how often to
+update the App Widget, and (optionally) a configuration Activity to launch at
+create-time. Define the AppWidgetProviderInfo object in an XML resource using
+a single <appwidget-provider> element and save it in the project's res/xml/ folder.
+See: https://developer.android.com/guide/topics/appwidgets#MetaData-->
+<appwidget-provider
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialKeyguardLayout="@layout/widget_recipe"
+    android:initialLayout="@layout/widget_recipe"
+    android:minHeight="250dp"
+    android:minWidth="180dp"
+    android:previewImage="@drawable/example_appwidget_preview"
+    android:resizeMode="horizontal|vertical"
+    android:widgetCategory="home_screen"/>

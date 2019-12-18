@@ -51,6 +51,7 @@ dependencies {
     implementation "androidx.cardview:cardview:$version_cardview"
     implementation "com.google.android.material:material:$version_material"
     implementation "androidx.fragment:fragment-ktx:$version_fragment_ktx"
+    implementation "androidx.preference:preference-ktx:$version_preferences"
 
     // Room for Databases
     implementation "androidx.room:room-runtime:$version_room"
