@@ -47,13 +47,11 @@ class StepDetailsFragment : Fragment() {
     private val args: StepDetailsFragmentArgs by navArgs()
     private var binding: FragmentStepDetailsBinding by autoCleared()
 
-    private val playerView: PlayerView? = null
     private var simpleExoPlayer: SimpleExoPlayer? = null
     private var playWhenReady = true
     private var playbackPosition: Long = 0
     private var currentWindow = 0
-
-    private var videoUri: Uri? = null
+    private var currentStepIndex = -1
 
 
     override fun onAttach(context: Context) {
@@ -71,37 +69,41 @@ class StepDetailsFragment : Fragment() {
         binding = FragmentStepDetailsBinding.inflate(inflater)
         binding.lifecycleOwner = this
 
-        // Save the recipe ID and current step position sent via Navigation safe args
-        viewModel.init(args.recipeId, args.stepPosition)
-
         return binding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        currentStepIndex = args.stepPosition
         restoreInstanceState(savedInstanceState)
+        viewModel.init(args.recipeId, currentStepIndex)
 
         viewModel.step.observe(viewLifecycleOwner, Observer {stepResource ->
+            // Make Step data available to data binding.
             binding.step = stepResource.data
+
             // Show step short description on action bar.
-            (activity as AppCompatActivity).supportActionBar?.title = stepResource.data?.shortDescription
-            stepResource.data?.let { step -> handleVideoUrl(step) }
+            (activity as AppCompatActivity).supportActionBar?.title =
+                stepResource.data?.shortDescription
+
+            // If step has a valid video URL, initialize player,
+            // else display step thumbnail or a placeholder image.
+            stepResource.data?.let { step -> handleStepUrl(step) }
             handleStepButtons()
         })
     }
 
 
-    private fun handleVideoUrl(step: Step) {
+    private fun handleStepUrl(step: Step) {
         // If step has a video, initialize player, else display an image.
         if (!TextUtils.isEmpty(step.videoURL)) {
             val videoUri = Uri.parse(step.videoURL)
             videoUri?.let { initializePlayer(it) }
         } else {
-            val thumbnailUrl: String? = step.thumbnailURL
-            if (!TextUtils.isEmpty(thumbnailUrl)) {
+            if (!TextUtils.isEmpty(step.thumbnailURL)) {
                 GlideApp
                     .with(binding.placeholderImage.context)
-                    .load(thumbnailUrl)
+                    .load(step.thumbnailURL)
                     // Display a placeholder until the image is loaded and processed.
                     .placeholder(R.drawable.loading_animation)
                     // Provide an error placeholder when Glide is unable to load the
@@ -121,11 +123,13 @@ class StepDetailsFragment : Fragment() {
         binding.previousStepButton.setOnClickListener {
             resetPlayer()
             viewModel.onPrev()
+            currentStepIndex--
         }
 
         binding.nextStepButton.setOnClickListener {
             resetPlayer()
             viewModel.onNext()
+            currentStepIndex++
         }
 
         // Necessary because Espresso cannot read data binding callbacks.
@@ -180,27 +184,6 @@ class StepDetailsFragment : Fragment() {
     }
 
 
-    override fun onStart() {
-        // Starting with API level 24 Android supports multiple windows.
-        // As our app can be visible but not active in split window mode,
-        // we need to initialize the player in onStart. Before API level 24
-        // we wait as long as possible until we grab resources, so we wait
-        // until onResume before initializing the player.
-        super.onStart()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            videoUri?.let { initializePlayer(it) }
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        //hideSystemUi()
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N || simpleExoPlayer == null) {
-            videoUri?.let { initializePlayer(it) }
-        }
-    }
-
-
     override fun onPause() {
         super.onPause()
         // Release the player in onPause() if on Android Marshmallow and below.
@@ -225,6 +208,7 @@ class StepDetailsFragment : Fragment() {
         outState.putBoolean(PLAY_WHEN_READY_KEY, playWhenReady)
         outState.putLong(PLAYBACK_POSITION_KEY, playbackPosition)
         outState.putInt(CURRENT_WINDOW, currentWindow)
+        outState.putInt(CURRENT_STEP_INDEX, currentStepIndex)
     }
 
     private fun restoreInstanceState(savedInstanceState: Bundle?) {
@@ -236,8 +220,12 @@ class StepDetailsFragment : Fragment() {
                 playbackPosition = savedInstanceState.getLong(PLAYBACK_POSITION_KEY)
             }
             if (savedInstanceState.containsKey(CURRENT_WINDOW)) {
-                currentWindow =  savedInstanceState.getInt(PLAY_WHEN_READY_KEY)
+                currentWindow =  savedInstanceState.getInt(CURRENT_WINDOW)
             }
+            if (savedInstanceState.containsKey(CURRENT_STEP_INDEX)) {
+                currentStepIndex =  savedInstanceState.getInt(CURRENT_STEP_INDEX)
+            }
+
         }
     }
 
@@ -245,5 +233,6 @@ class StepDetailsFragment : Fragment() {
         private const val PLAY_WHEN_READY_KEY = "SHOULD_PLAY_WHEN_READY_KEY";
         private const val PLAYBACK_POSITION_KEY = "CURRENT_PLAYBACK_POSITION_KEY";
         private const val CURRENT_WINDOW = "CURRENT_WINDOW"
+        private const val CURRENT_STEP_INDEX = "CURRENT_STEP_INDEX"
     }
 }
