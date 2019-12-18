@@ -163,7 +163,7 @@ class StepDetailsFragment : Fragment() {
             binding.step = stepResource.data
 
             // Show step short description on action bar.
-            (activity as AppCompatActivity).supportActionBar?.title =
+            if (!isTwoPane) (activity as AppCompatActivity).supportActionBar?.title =
                 stepResource.data?.shortDescription
 
             // If step has a valid video URL, initialize player,

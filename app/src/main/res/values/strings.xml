@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Baking</string>
+    <string name="app_name">Baking Recipes</string>
 
     <string name="action_retry">Retry</string>
     <string name="unknown_error">Unknown error</string>

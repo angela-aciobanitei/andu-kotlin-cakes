@@ -13,29 +13,27 @@
             type="com.ang.acb.baking.ui.recipelist.RecipeClickListener" />
     </data>
 
-    <androidx.cardview.widget.CardView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_small"
         android:clickable="true"
         android:focusable="true"
         android:onClick="@{() -> recipeClickListener.onClick(recipe)}"
-        android:background="?selectableItemBackgroundBorderless"
-        app:cardCornerRadius="4dp"
-        app:cardElevation="4dp">
+        android:foreground="?android:attr/selectableItemBackground">
 
         <TextView
             android:id="@+id/recipe_item_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_cake_black_24dp"
+            android:drawableEnd="@drawable/ic_chevron_right_black_24dp"
             android:drawablePadding="@dimen/padding_small"
             android:padding="@dimen/padding_normal"
             android:text="@{recipe.name}"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Apple Blood Orange Buckle" />
 
-    </androidx.cardview.widget.CardView>
+    </FrameLayout>
 </layout>
