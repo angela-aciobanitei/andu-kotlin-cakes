@@ -5,8 +5,10 @@ import androidx.preference.PreferenceManager
 import com.ang.acb.baking.R
 
 object PreferencesUtils {
+
     fun setWidgetRecipeId(context: Context, recipeId: Int) {
-        PreferenceManager.getDefaultSharedPreferences(context).edit()
+        PreferenceManager.getDefaultSharedPreferences(context)
+            .edit()
             .putInt(context.getString(R.string.pref_widget_key), recipeId)
             .apply()
     }
@@ -17,7 +19,8 @@ object PreferencesUtils {
     }
 
     fun setWidgetTitle(context: Context, title: String?) {
-        PreferenceManager.getDefaultSharedPreferences(context).edit()
+        PreferenceManager.getDefaultSharedPreferences(context)
+            .edit()
             .putString(context.getString(R.string.pref_title_key), title)
             .apply()
     }

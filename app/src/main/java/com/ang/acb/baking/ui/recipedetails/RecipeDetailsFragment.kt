@@ -32,6 +32,8 @@ class RecipeDetailsFragment : Fragment() {
     private val args: RecipeDetailsFragmentArgs by navArgs()
     private var binding: FragmentRecipeDetailsBinding by autoCleared()
 
+    private lateinit var recipeName: String
+
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
@@ -72,6 +74,7 @@ class RecipeDetailsFragment : Fragment() {
         viewModel.recipeDetails.observe(viewLifecycleOwner, Observer {
             // Show recipe name on action bar.
             (activity as AppCompatActivity).supportActionBar?.title = it.recipe?.name
+            recipeName = it.recipe?.name.toString()
             ingredientsAdapter.submitList(it.ingredients)
             stepsAdapter.submitList(it.steps)
         })
@@ -98,7 +101,7 @@ class RecipeDetailsFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.action_create_widget) {
-            addWidgetToHomeScreen(args.recipeId, args.recipeName)
+            addWidgetToHomeScreen(args.recipeId, recipeName)
             return true
         }
         return super.onOptionsItemSelected(item)

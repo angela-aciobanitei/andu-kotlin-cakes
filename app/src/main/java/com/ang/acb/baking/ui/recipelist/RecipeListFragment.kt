@@ -24,9 +24,7 @@ import com.ang.acb.baking.utils.autoCleared
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
-/**
- * A simple [Fragment] subclass.
- */
+
 class RecipeListFragment : Fragment() {
 
     @Inject

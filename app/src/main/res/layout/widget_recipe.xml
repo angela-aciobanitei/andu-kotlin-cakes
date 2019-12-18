@@ -8,14 +8,15 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/colorPrimary">
+    android:background="@color/colorPrimary"
+    android:padding="@dimen/widget_margin">
 
     <TextView
         android:id="@+id/widget_ingredients_list_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
-        android:padding="16dp"
+        android:padding="@dimen/padding_normal"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
         android:textColor="@android:color/white"
         android:textStyle="bold"
@@ -25,7 +26,7 @@
         android:id="@+id/widget_ingredients_list_items"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
+        android:padding="@dimen/padding_small"
         tools:listitem="@layout/widget_ingredient_item" />
 
     <TextView

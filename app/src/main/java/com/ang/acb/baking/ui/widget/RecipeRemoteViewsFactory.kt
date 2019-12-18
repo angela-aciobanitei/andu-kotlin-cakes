@@ -11,6 +11,7 @@ import com.ang.acb.baking.data.database.RecipeDetails
 import com.ang.acb.baking.data.database.RecipesDatabase
 import com.ang.acb.baking.data.repository.RecipeRepository
 import java.util.*
+import javax.inject.Inject
 
 /**
  * A custom class that implements the RemoteViewsFactory interface and provides
@@ -18,16 +19,15 @@ import java.util.*
  *
  * See: https://developer.android.com/guide/topics/appwidgets#remoteviewsfactory-interface
  */
-class RecipeRemoteViewsFactory
-internal constructor(private val context: Context) : RemoteViewsFactory {
+class RecipeRemoteViewsFactory(private val context: Context) : RemoteViewsFactory {
 
-    // TODO Use repo
+
     private val database: RecipesDatabase =
-        Room.databaseBuilder(context, RecipesDatabase::class.java, "recipes.db")
+        Room.databaseBuilder(context, RecipesDatabase::class.java, "baking")
             .fallbackToDestructiveMigration()
             .build()
 
-    private var ingredients: MutableList<String>? = null
+    private lateinit var ingredients: MutableList<String>
 
     override fun onCreate() {}
 
@@ -35,10 +35,10 @@ internal constructor(private val context: Context) : RemoteViewsFactory {
         val recipeId = PreferencesUtils.getWidgetRecipeId(context)
         if (recipeId != -1) {
             ingredients = ArrayList()
-            val recipeDetails: RecipeDetails =
+            val recipeDetails: RecipeDetails? =
                 database.recipeDao.getRecipeDetailsForWidget(recipeId)
-            recipeDetails.ingredients?.forEach { ingredient ->
-                ingredients?.add(String.format(
+            recipeDetails?.ingredients?.forEach { ingredient ->
+                ingredients.add(String.format(
                         Locale.getDefault(),
                         "%.1f %s %s",
                         ingredient.quantity,

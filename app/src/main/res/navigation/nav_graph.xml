@@ -29,10 +29,6 @@
             android:name="recipeId"
             app:argType="integer"
             android:defaultValue="0" />
-        <argument
-            android:name="recipeName"
-            app:argType="string"
-            android:defaultValue="Recipe" />
     </fragment>
 
     <fragment

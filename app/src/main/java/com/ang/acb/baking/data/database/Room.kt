@@ -40,7 +40,7 @@ abstract class RecipeDao {
 
     @Transaction
     @Query("SELECT * FROM recipes WHERE id= :recipeId")
-    abstract fun getRecipeDetailsForWidget(recipeId: Int?): RecipeDetails
+    abstract fun getRecipeDetailsForWidget(recipeId: Int): RecipeDetails?
 
     @Transaction
     @Query("SELECT * FROM recipes")
