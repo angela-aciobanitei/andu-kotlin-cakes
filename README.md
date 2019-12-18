@@ -19,5 +19,12 @@ An app that displays recipes from a network resource. When user selects a recipe
 *   [Glide](https://github.com/bumptech/glide) for image loading
 *   [ExoPlayer](https://github.com/google/ExoPlayer) for streaming videos
 *   [Timber](https://github.com/JakeWharton/timber) for logging
-*   [Dagger 2](https://github.com/google/dagger) for dependency injection  
+*   [Dagger 2](https://github.com/google/dagger) for dependency injection 
 
+## Screenshots Phone
+<img src="/screenshots/phone_recipe_list.png" width="250"/> <img src="/screenshots/phone_recipe_details.png" width="250"/> 
+<img src="/screenshots/phone_step_details.png" width="250"/> 
+<img src="/screenshots/phone_step_details_land.png" width="600"/>
+
+## Screenshots Tablet
+<img src="/screenshots/tablet_details_land.png" width="600"/> <img src="/screenshots/tablet_details_portrait.png" width="400"/>
