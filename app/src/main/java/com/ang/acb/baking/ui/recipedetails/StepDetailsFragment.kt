@@ -11,11 +11,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.navArgs
 import com.ang.acb.baking.R
 import com.ang.acb.baking.data.database.Step
 import com.ang.acb.baking.databinding.FragmentStepDetailsBinding
@@ -39,13 +39,17 @@ import javax.inject.Inject
  * See: https://www.raywenderlich.com/5573-media-playback-on-android-with-exoplayer-getting-started
  */
 
+private const val PLAY_WHEN_READY_KEY = "SHOULD_PLAY_WHEN_READY_KEY";
+private const val PLAYBACK_POSITION_KEY = "CURRENT_PLAYBACK_POSITION_KEY";
+private const val CURRENT_WINDOW = "CURRENT_WINDOW"
+private const val CURRENT_STEP_INDEX = "CURRENT_STEP_INDEX"
+
 class StepDetailsFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val viewModel: StepDetailsViewModel by viewModels { viewModelFactory }
-    private val args: StepDetailsFragmentArgs by navArgs()
     private var binding: FragmentStepDetailsBinding by autoCleared()
 
     private var simpleExoPlayer: SimpleExoPlayer? = null
@@ -53,6 +57,20 @@ class StepDetailsFragment : Fragment() {
     private var playbackPosition: Long = 0
     private var currentWindow = 0
     private var currentStepIndex = -1
+    private var recipeId = -1
+    private var isTwoPane = false
+
+
+    companion object {
+        fun newInstance(recipeId: Int, stepPosition: Int, isTwoPane: Boolean) =
+            StepDetailsFragment().apply {
+                arguments = bundleOf(
+                    EXTRA_RECIPE_ID to recipeId,
+                    EXTRA_STEP_POSITION to stepPosition,
+                    EXTRA_IS_TWO_PANE to isTwoPane
+                )
+            }
+    }
 
 
     override fun onAttach(context: Context) {
@@ -75,12 +93,25 @@ class StepDetailsFragment : Fragment() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         enableFullscreenMode()
-
-        currentStepIndex = args.stepPosition
+        getIntentExtras()
         restoreInstanceState(savedInstanceState)
-        viewModel.init(args.recipeId, currentStepIndex)
+        observeCurrentStep()
+    }
 
+
+    private fun getIntentExtras() {
+        arguments?.let {
+            recipeId = it.getInt(EXTRA_RECIPE_ID)
+            currentStepIndex = it.getInt(EXTRA_STEP_POSITION)
+            isTwoPane = it.getBoolean(EXTRA_IS_TWO_PANE, false)
+        }
+    }
+
+
+    private fun observeCurrentStep() {
+        viewModel.init(recipeId, currentStepIndex)
         viewModel.step.observe(viewLifecycleOwner, Observer {stepResource ->
             // Make Step data available to data binding.
             binding.step = stepResource.data
@@ -257,12 +288,5 @@ class StepDetailsFragment : Fragment() {
     private fun isFullscreenMode(): Boolean {
         return resources.configuration.smallestScreenWidthDp < 600 &&
                 resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
-    }
-
-    companion object {
-        private const val PLAY_WHEN_READY_KEY = "SHOULD_PLAY_WHEN_READY_KEY";
-        private const val PLAYBACK_POSITION_KEY = "CURRENT_PLAYBACK_POSITION_KEY";
-        private const val CURRENT_WINDOW = "CURRENT_WINDOW"
-        private const val CURRENT_STEP_INDEX = "CURRENT_STEP_INDEX"
     }
 }

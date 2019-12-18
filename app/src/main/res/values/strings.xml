@@ -16,4 +16,5 @@
     <string name="pref_title_key">pref_title_key</string>
     <string name="create_widget">Create recipe widget</string>
     <string name="empty_widget">Empty widget.</string>
+    <string name="detail_error_message">Recipe details not available.</string>
 </resources>

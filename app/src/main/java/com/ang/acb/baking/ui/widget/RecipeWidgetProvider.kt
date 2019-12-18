@@ -8,7 +8,7 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.RemoteViews
 import com.ang.acb.baking.R
-import com.ang.acb.baking.ui.common.MainActivity
+import com.ang.acb.baking.ui.recipelist.MainActivity
 
 /**
  * The AppWidgetProvider class implementation. Defines the basic methods that allow

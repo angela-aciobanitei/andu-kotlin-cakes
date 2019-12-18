@@ -7,10 +7,14 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 @Module
-abstract class FragmentBuildersModule {
+abstract class FragmentsMainModule {
 
     @ContributesAndroidInjector
     abstract fun contributeRecipeListFragment(): RecipeListFragment
+}
+
+@Module
+abstract class FragmentsDetailsModule {
 
     @ContributesAndroidInjector
     abstract fun contributeRecipeDetailsFragment(): RecipeDetailsFragment

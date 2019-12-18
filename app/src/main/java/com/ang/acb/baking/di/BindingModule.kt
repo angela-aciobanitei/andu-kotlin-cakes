@@ -1,12 +1,20 @@
 package com.ang.acb.baking.di
 
-import com.ang.acb.baking.ui.common.MainActivity
+import com.ang.acb.baking.ui.recipedetails.DetailsActivity
+import com.ang.acb.baking.ui.recipelist.MainActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class MainActivityModule {
 
-    @ContributesAndroidInjector(modules = [FragmentBuildersModule::class])
+    @ContributesAndroidInjector(modules = [FragmentsMainModule::class])
     abstract fun contributeMainActivity(): MainActivity
+}
+
+@Module
+abstract class DetailsActivityModule {
+
+    @ContributesAndroidInjector(modules = [FragmentsDetailsModule::class])
+    abstract fun contributeDetailsActivity(): DetailsActivity
 }

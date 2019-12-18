@@ -7,12 +7,11 @@ import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.ang.acb.baking.R
 import com.ang.acb.baking.databinding.FragmentRecipeDetailsBinding
 import com.ang.acb.baking.ui.widget.PreferencesUtils
@@ -28,11 +27,24 @@ class RecipeDetailsFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     // Use delegated properties: val/var <property name>: <Type> by <expression>.
-    private val viewModel: RecipeDetailsViewModel by viewModels() { viewModelFactory }
-    private val args: RecipeDetailsFragmentArgs by navArgs()
+    private val viewModel: RecipeDetailsViewModel by viewModels { viewModelFactory }
     private var binding: FragmentRecipeDetailsBinding by autoCleared()
 
+    private var recipeId = -1
+    private var isTwoPane = false
     private lateinit var recipeName: String
+
+
+    companion object {
+        fun newInstance(recipeId: Int,isTwoPane: Boolean) =
+            RecipeDetailsFragment().apply {
+                arguments = bundleOf(
+                    EXTRA_RECIPE_ID to recipeId,
+                    EXTRA_IS_TWO_PANE to isTwoPane
+                )
+            }
+    }
+
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
@@ -46,8 +58,12 @@ class RecipeDetailsFragment : Fragment() {
         binding = FragmentRecipeDetailsBinding.inflate(inflater)
         binding.lifecycleOwner = this
 
-        // Save the recipe ID sent via Navigation safe args
-        viewModel.setId(args.recipeId)
+        // Save the recipe ID sent via intent extras
+        arguments?.let {
+            recipeId = it.getInt(EXTRA_RECIPE_ID)
+            isTwoPane = it.getBoolean(EXTRA_IS_TWO_PANE, false)
+        }
+        viewModel.setId(recipeId)
 
         // Report that this fragment would like to populate the options menu.
         setHasOptionsMenu(true)
@@ -83,11 +99,12 @@ class RecipeDetailsFragment : Fragment() {
     private fun navigateToStepDetails() {
         viewModel.navigateToStepDetails.observe(viewLifecycleOwner, Observer {
             // Only proceed if the event has never been handled.
-            it.getContentIfNotHandled()?.let{position ->
-                val action = RecipeDetailsFragmentDirections.actionShowStepDetails(
-                    recipeId = args.recipeId,
-                    stepPosition = position)
-                this.findNavController().navigate(action)
+            it.getContentIfNotHandled()?.let { position ->
+                val  navigationController = NavigationController(activity as DetailsActivity)
+                navigationController.navigateToStepDetails(
+                    recipeId = recipeId,
+                    stepPosition = position,
+                    isTwoPane = isTwoPane)
             }
         })
     }
@@ -101,7 +118,7 @@ class RecipeDetailsFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.action_create_widget) {
-            addWidgetToHomeScreen(args.recipeId, recipeName)
+            addWidgetToHomeScreen(recipeId, recipeName)
             return true
         }
         return super.onOptionsItemSelected(item)

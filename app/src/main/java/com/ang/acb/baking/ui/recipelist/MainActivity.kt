@@ -1,4 +1,4 @@
-package com.ang.acb.baking.ui.common
+package com.ang.acb.baking.ui.recipelist
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -19,13 +19,6 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
 
-    // NavigationUI uses an AppBarConfiguration object to manage the behavior of the
-    // Navigation button in the upper-left corner of your app's display area. By default,
-    // the Navigation button is hidden when a user is at a top-level destination of a
-    // navigation graph and appears as an Up button in any other destination. To use
-    // the start destination of your navigation graph as the only top-level destination,
-    // you can create an AppBarConfiguration object and pass in the navigation graph.
-    private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // When using Dagger for injecting Activity objects, inject as early as possible.
@@ -33,10 +26,12 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // See: https://developer.android.com/guide/navigation/navigation-ui#action_bar
-        val navController = this.findNavController(R.id.recipes_nav_host_fragment)
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
+        if(savedInstanceState == null) {
+            // Navigate to recipe list fragment.
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.main_container, RecipeListFragment())
+                .commit()
+        }
     }
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> {
@@ -46,8 +41,4 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         return dispatchingAndroidInjector
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.recipes_nav_host_fragment)
-        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
-    }
 }

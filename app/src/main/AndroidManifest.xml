@@ -17,7 +17,7 @@
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
 
         <activity
-            android:name=".ui.common.MainActivity"
+            android:name=".ui.recipelist.MainActivity"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,10 +25,18 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".ui.recipedetails.DetailsActivity"
+            android:parentActivityName=".ui.recipelist.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.recipelist.MainActivity"/>
+
+        </activity>
+
         <!-- Declaring an AppWidgetProvider in the Manifest.
-         See: https://developer.android.com/guide/topics/appwidgets#Manifest-->
-        <receiver
-            android:name=".ui.widget.RecipeWidgetProvider">
+        https://developer.android.com/guide/topics/appwidgets#Manifest -->
+        <receiver android:name=".ui.widget.RecipeWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -37,14 +45,15 @@
                 android:resource="@xml/recipe_widget_info" />
         </receiver>
 
-        <!--  To create app widgets with collections you must declare the service
+        <!-- To create app widgets with collections you must declare the service
         in your manifest file with the permission BIND_REMOTEVIEWS. This prevents
         other applications from freely accessing your app widget's data.
-        See: https://developer.android.com/guide/topics/appwidgets#manifest-for-app-widgets-with-collections-->
+        https://developer.android.com/guide/topics/appwidgets#manifest-for-app-widgets-with-collections -->
         <service
             android:name=".ui.widget.RecipeRemoteViewsService"
-            android:permission="android.permission.BIND_REMOTEVIEWS"/>
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
 
+        <!-- Preloaded fonts -->
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
