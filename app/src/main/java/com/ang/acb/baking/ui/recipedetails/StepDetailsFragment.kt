@@ -2,6 +2,7 @@ package com.ang.acb.baking.ui.recipedetails
 
 
 import android.content.Context
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -24,11 +25,11 @@ import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
-import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import dagger.android.support.AndroidSupportInjection
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -74,6 +75,8 @@ class StepDetailsFragment : Fragment() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        enableFullscreenMode()
+
         currentStepIndex = args.stepPosition
         restoreInstanceState(savedInstanceState)
         viewModel.init(args.recipeId, currentStepIndex)
@@ -104,15 +107,16 @@ class StepDetailsFragment : Fragment() {
                 GlideApp
                     .with(binding.placeholderImage.context)
                     .load(step.thumbnailURL)
-                    // Display a placeholder until the image is loaded and processed.
+                    // Display a placeholder while the image is loading.
                     .placeholder(R.drawable.loading_animation)
-                    // Provide an error placeholder when Glide is unable to load the
-                    // image. This will be shown for the non-existing-url.
+                    // Provide an error placeholder when Glide is unable to load
+                    // the image. This will be shown for the non-existing-url.
                     .error(R.drawable.ic_broken_image)
-                    // Use fallback image resource when the url can be null.
+                    // Provide a fallback image resource when the URL is null.
                     .fallback(R.drawable.baking)
                     .into(binding.placeholderImage)
             } else {
+                // Provide a fallback for an empty thumbnail URL.
                 binding.placeholderImage.setImageResource(R.drawable.baking)
             }
         }
@@ -120,20 +124,22 @@ class StepDetailsFragment : Fragment() {
 
 
     private fun handleStepButtons() {
-        binding.previousStepButton.setOnClickListener {
-            resetPlayer()
-            viewModel.onPrev()
-            currentStepIndex--
-        }
+        if (!isFullscreenMode()) {
+            binding.previousStepButton?.setOnClickListener {
+                resetPlayer()
+                viewModel.onPrev()
+                currentStepIndex--
+            }
 
-        binding.nextStepButton.setOnClickListener {
-            resetPlayer()
-            viewModel.onNext()
-            currentStepIndex++
-        }
+            binding.nextStepButton?.setOnClickListener {
+                resetPlayer()
+                viewModel.onNext()
+                currentStepIndex++
+            }
 
-        // Necessary because Espresso cannot read data binding callbacks.
-        binding.executePendingBindings()
+            // Necessary because Espresso cannot read data binding callbacks.
+            binding.executePendingBindings()
+        }
     }
 
 
@@ -227,6 +233,29 @@ class StepDetailsFragment : Fragment() {
             }
 
         }
+    }
+
+
+    private fun enableFullscreenMode() {
+        if (isFullscreenMode()) {
+            // Hide system UI
+            // See: https://developer.android.com/training/system-ui/immersive#EnableFullscreen
+            activity!!.window.decorView.systemUiVisibility =
+                    View.SYSTEM_UI_FLAG_IMMERSIVE or
+                    // Set the content to appear under the system bars so that the
+                    // content doesn't resize when the system bars hide and show.
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                    // Hide the nav bar and status bar
+                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                    View.SYSTEM_UI_FLAG_FULLSCREEN
+        }
+    }
+
+    private fun isFullscreenMode(): Boolean {
+        return resources.configuration.smallestScreenWidthDp < 600 &&
+                resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
     }
 
     companion object {
