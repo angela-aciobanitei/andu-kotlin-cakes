@@ -27,4 +27,4 @@ An app that displays recipes from a network resource. When user selects a recipe
 <img src="/screenshots/phone_step_details_land.png" width="600"/>
 
 ## Screenshots Tablet
-<img src="/screenshots/tablet_details_land.png" width="600"/> <img src="/screenshots/tablet_details_portrait.png" width="400"/>
+<img src="/screenshots/tablet_details_land.png" width="600"/> <img src="/screenshots/tablet_details_port2.png" width="400"/>
