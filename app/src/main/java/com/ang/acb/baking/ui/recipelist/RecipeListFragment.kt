@@ -61,17 +61,14 @@ class RecipeListFragment : Fragment() {
         val adapter = RecipesAdapter(
             recipeClickListener = RecipeClickListener {
                 viewModel.navigateToRecipeDetailsEvent(it)
-            })
+            }
+        )
         binding.rvRecipeList.adapter = adapter
-        binding.rvRecipeList.addItemDecoration(
-            DividerItemDecoration(requireContext(),
-                LinearLayoutManager.VERTICAL ))
 
         viewModel.recipes.observe(viewLifecycleOwner, Observer {resourceList ->
             binding.resource = resourceList
             adapter.submitList(resourceList.data?.map { it.recipe })
         })
-
 
         viewModel.navigateToRecipeDetails.observe(viewLifecycleOwner, Observer {
             // Only proceed if the event has never been handled.

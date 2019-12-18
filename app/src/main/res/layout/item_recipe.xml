@@ -16,7 +16,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding_mini"
+        android:layout_margin="@dimen/margin_small"
         android:clickable="true"
         android:focusable="true"
         android:onClick="@{() -> recipeClickListener.onClick(recipe)}"

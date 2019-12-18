@@ -241,13 +241,14 @@ class StepDetailsFragment : Fragment() {
             // Hide system UI
             // See: https://developer.android.com/training/system-ui/immersive#EnableFullscreen
             activity!!.window.decorView.systemUiVisibility =
+                    // Enables regular immersive mode.
                     View.SYSTEM_UI_FLAG_IMMERSIVE or
                     // Set the content to appear under the system bars so that the
                     // content doesn't resize when the system bars hide and show.
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
                     View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
                     View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-                    // Hide the nav bar and status bar
+                    // Hide the nav bar and the status bar.
                     View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
                     View.SYSTEM_UI_FLAG_FULLSCREEN
         }
