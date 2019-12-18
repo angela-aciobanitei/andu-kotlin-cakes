@@ -24,7 +24,10 @@ An app that displays recipes from a network resource. When user selects a recipe
 ## Screenshots Phone
 <img src="/screenshots/phone_recipe_list.png" width="250"/> <img src="/screenshots/phone_recipe_details.png" width="250"/> 
 <img src="/screenshots/phone_step_details.png" width="250"/> 
-<img src="/screenshots/phone_step_details_land.png" width="600"/>
+
+On landscape mode recipe video takes up the full screen:
+
+<img src="/screenshots/phone_step_details_land.png" width="500"/>
 
 ## Screenshots Tablet
 <img src="/screenshots/tablet_details_land.png" width="600"/> <img src="/screenshots/tablet_details_port2.png" width="400"/>
