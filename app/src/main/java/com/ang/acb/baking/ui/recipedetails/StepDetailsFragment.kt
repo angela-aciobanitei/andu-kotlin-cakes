@@ -9,6 +9,7 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -23,12 +24,19 @@ import com.google.android.exoplayer2.ExoPlayerFactory
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
+import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
+/**
+ * See: https://exoplayer.dev/hello-world.html
+ * See: https://github.com/googlecodelabs/exoplayer-intro/tree/master
+ * See: https://codelabs.developers.google.com/codelabs/exoplayer-intro
+ * See: https://www.raywenderlich.com/5573-media-playback-on-android-with-exoplayer-getting-started
+ */
 
 class StepDetailsFragment : Fragment() {
 
@@ -39,16 +47,21 @@ class StepDetailsFragment : Fragment() {
     private val args: StepDetailsFragmentArgs by navArgs()
     private var binding: FragmentStepDetailsBinding by autoCleared()
 
+    private val playerView: PlayerView? = null
     private var simpleExoPlayer: SimpleExoPlayer? = null
-    private var shouldPlayWhenReady = false
+    private var playWhenReady = true
     private var playbackPosition: Long = 0
-    private var currentStepCount = -1
+    private var currentWindow = 0
+
+    private var videoUri: Uri? = null
+
 
     override fun onAttach(context: Context) {
         // When using Dagger with Fragments, inject as early as possible.
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,6 +83,8 @@ class StepDetailsFragment : Fragment() {
 
         viewModel.step.observe(viewLifecycleOwner, Observer {stepResource ->
             binding.step = stepResource.data
+            // Show step short description on action bar.
+            (activity as AppCompatActivity).supportActionBar?.title = stepResource.data?.shortDescription
             stepResource.data?.let { step -> handleVideoUrl(step) }
             handleStepButtons()
         })
@@ -78,9 +93,9 @@ class StepDetailsFragment : Fragment() {
 
     private fun handleVideoUrl(step: Step) {
         // If step has a video, initialize player, else display an image.
-        val videoUrl: String? = step.videoURL
-        if (!TextUtils.isEmpty(videoUrl)) {
-            initializePlayer(Uri.parse(videoUrl))
+        if (!TextUtils.isEmpty(step.videoURL)) {
+            val videoUri = Uri.parse(step.videoURL)
+            videoUri?.let { initializePlayer(it) }
         } else {
             val thumbnailUrl: String? = step.thumbnailURL
             if (!TextUtils.isEmpty(thumbnailUrl)) {
@@ -119,37 +134,37 @@ class StepDetailsFragment : Fragment() {
 
 
     private fun initializePlayer(mediaUri: Uri) {
-        // See: https://exoplayer.dev/hello-world
+        // https://codelabs.developers.google.com/codelabs/exoplayer-intro
         if (simpleExoPlayer == null) {
             // Create the player using the ExoPlayerFactory.
             simpleExoPlayer = ExoPlayerFactory.newSimpleInstance(requireContext())
-            // Attach the payer to the view.
+            // Attach the player to the view.
             binding.exoplayerView.player = simpleExoPlayer
         }
+
         // Create a media source representing the media to be played.
+        val userAgent = Util.getUserAgent(requireContext(), getString(R.string.app_name))
         val dataSourceFactory: DataSource.Factory =
-            DefaultDataSourceFactory(
-                requireContext(),
-                Util.getUserAgent(requireContext(), getString(R.string.app_name))
-            )
-        val mediaSource: MediaSource = ProgressiveMediaSource.Factory(dataSourceFactory)
+            DefaultDataSourceFactory(requireContext(), userAgent)
+        val mediaSource: MediaSource = ProgressiveMediaSource
+            .Factory(dataSourceFactory)
             .createMediaSource(mediaUri)
-        // Prepare the player.
+
+        // Prepare the player with the source.
         simpleExoPlayer!!.prepare(mediaSource)
+
         // Control the player.
-        simpleExoPlayer!!.seekTo(playbackPosition)
-        simpleExoPlayer!!.playWhenReady = shouldPlayWhenReady
+        simpleExoPlayer!!.seekTo(currentWindow, playbackPosition)
+        simpleExoPlayer!!.playWhenReady = playWhenReady
     }
 
 
     private fun releasePlayer() {
         if (simpleExoPlayer != null) {
-            // Returns the playback position in the current content window
-            // or ad, in milliseconds.
             playbackPosition = simpleExoPlayer!!.currentPosition
-            // Returns whether playback will proceed when ready (i.e. when
-            // Player.getPlaybackState() == Player.STATE_READY.)
-            shouldPlayWhenReady = simpleExoPlayer!!.playWhenReady
+            currentWindow = simpleExoPlayer!!.currentWindowIndex
+            playWhenReady = simpleExoPlayer!!.playWhenReady
+
             simpleExoPlayer!!.stop()
             simpleExoPlayer!!.release()
             simpleExoPlayer = null
@@ -158,15 +173,36 @@ class StepDetailsFragment : Fragment() {
 
 
     private fun resetPlayer() {
-        shouldPlayWhenReady = true
+        playWhenReady = true
         playbackPosition = 0
+        currentWindow = 0
         if (simpleExoPlayer != null) simpleExoPlayer!!.stop()
+    }
+
+
+    override fun onStart() {
+        // Starting with API level 24 Android supports multiple windows.
+        // As our app can be visible but not active in split window mode,
+        // we need to initialize the player in onStart. Before API level 24
+        // we wait as long as possible until we grab resources, so we wait
+        // until onResume before initializing the player.
+        super.onStart()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            videoUri?.let { initializePlayer(it) }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        //hideSystemUi()
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N || simpleExoPlayer == null) {
+            videoUri?.let { initializePlayer(it) }
+        }
     }
 
 
     override fun onPause() {
         super.onPause()
-        // See: https://www.raywenderlich.com/5573-media-playback-on-android-with-exoplayer-getting-started
         // Release the player in onPause() if on Android Marshmallow and below.
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             releasePlayer()
@@ -186,23 +222,28 @@ class StepDetailsFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
+        outState.putBoolean(PLAY_WHEN_READY_KEY, playWhenReady)
         outState.putLong(PLAYBACK_POSITION_KEY, playbackPosition)
-        outState.putBoolean(PLAY_WHEN_READY_KEY, shouldPlayWhenReady)
+        outState.putInt(CURRENT_WINDOW, currentWindow)
     }
 
     private fun restoreInstanceState(savedInstanceState: Bundle?) {
         if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(PLAY_WHEN_READY_KEY)) {
+                playWhenReady =  savedInstanceState.getBoolean(PLAY_WHEN_READY_KEY)
+            }
             if (savedInstanceState.containsKey(PLAYBACK_POSITION_KEY)) {
                 playbackPosition = savedInstanceState.getLong(PLAYBACK_POSITION_KEY)
             }
-            if (savedInstanceState.containsKey(PLAY_WHEN_READY_KEY)) {
-                shouldPlayWhenReady =  savedInstanceState.getBoolean(PLAY_WHEN_READY_KEY)
+            if (savedInstanceState.containsKey(CURRENT_WINDOW)) {
+                currentWindow =  savedInstanceState.getInt(PLAY_WHEN_READY_KEY)
             }
         }
     }
 
     companion object {
-        private const val PLAYBACK_POSITION_KEY = "CURRENT_PLAYBACK_POSITION_KEY";
         private const val PLAY_WHEN_READY_KEY = "SHOULD_PLAY_WHEN_READY_KEY";
+        private const val PLAYBACK_POSITION_KEY = "CURRENT_PLAYBACK_POSITION_KEY";
+        private const val CURRENT_WINDOW = "CURRENT_WINDOW"
     }
 }

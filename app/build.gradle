@@ -49,7 +49,6 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$version_constraint_layout"
     implementation "androidx.recyclerview:recyclerview:$version_recyclerview"
     implementation "androidx.cardview:cardview:$version_cardview"
-    implementation "androidx.palette:palette:$version_palette"
     implementation "com.google.android.material:material:$version_material"
     implementation "androidx.fragment:fragment-ktx:$version_fragment_ktx"
 
