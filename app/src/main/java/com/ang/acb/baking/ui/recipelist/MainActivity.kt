@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
             // Navigate to recipe list fragment.
             supportFragmentManager.beginTransaction()
                 .replace(R.id.main_container, RecipeListFragment())
+                .addToBackStack(null)
                 .commit()
         }
     }
@@ -40,5 +41,4 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         // are constructed by the Android framework and not by Dagger.
         return dispatchingAndroidInjector
     }
-
 }

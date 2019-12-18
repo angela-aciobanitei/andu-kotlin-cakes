@@ -26,6 +26,9 @@ class RecipeDetailsFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    @Inject
+    lateinit var navigationController: NavigationController
+
     // Use delegated properties: val/var <property name>: <Type> by <expression>.
     private val viewModel: RecipeDetailsViewModel by viewModels { viewModelFactory }
     private var binding: FragmentRecipeDetailsBinding by autoCleared()
@@ -100,7 +103,6 @@ class RecipeDetailsFragment : Fragment() {
         viewModel.navigateToStepDetails.observe(viewLifecycleOwner, Observer {
             // Only proceed if the event has never been handled.
             it.getContentIfNotHandled()?.let { position ->
-                val  navigationController = NavigationController(activity as DetailsActivity)
                 navigationController.navigateToStepDetails(
                     recipeId = recipeId,
                     stepPosition = position,
@@ -117,11 +119,14 @@ class RecipeDetailsFragment : Fragment() {
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.action_create_widget) {
-            addWidgetToHomeScreen(recipeId, recipeName)
-            return true
+        return when(item.itemId) {
+            R.id.action_create_widget -> {
+                addWidgetToHomeScreen(recipeId, recipeName)
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun addWidgetToHomeScreen(recipeId: Int, recipeName: String) {

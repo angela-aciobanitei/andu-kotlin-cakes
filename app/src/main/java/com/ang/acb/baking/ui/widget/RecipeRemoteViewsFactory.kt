@@ -7,6 +7,7 @@ import android.widget.RemoteViews
 import android.widget.RemoteViewsService.RemoteViewsFactory
 import androidx.room.Room
 import com.ang.acb.baking.R
+import com.ang.acb.baking.data.database.RecipeDao
 import com.ang.acb.baking.data.database.RecipeDetails
 import com.ang.acb.baking.data.database.RecipesDatabase
 import com.ang.acb.baking.data.repository.RecipeRepository
@@ -19,13 +20,10 @@ import javax.inject.Inject
  *
  * See: https://developer.android.com/guide/topics/appwidgets#remoteviewsfactory-interface
  */
-class RecipeRemoteViewsFactory(private val context: Context) : RemoteViewsFactory {
-
-
-    private val database: RecipesDatabase =
-        Room.databaseBuilder(context, RecipesDatabase::class.java, "baking")
-            .fallbackToDestructiveMigration()
-            .build()
+class RecipeRemoteViewsFactory(
+    private val context: Context,
+    private val recipeDao: RecipeDao
+) : RemoteViewsFactory {
 
     private lateinit var ingredients: MutableList<String>
 
@@ -36,7 +34,7 @@ class RecipeRemoteViewsFactory(private val context: Context) : RemoteViewsFactor
         if (recipeId != -1) {
             ingredients = ArrayList()
             val recipeDetails: RecipeDetails? =
-                database.recipeDao.getRecipeDetailsForWidget(recipeId)
+                recipeDao.getRecipeDetailsForWidget(recipeId)
             recipeDetails?.ingredients?.forEach { ingredient ->
                 ingredients.add(String.format(
                         Locale.getDefault(),

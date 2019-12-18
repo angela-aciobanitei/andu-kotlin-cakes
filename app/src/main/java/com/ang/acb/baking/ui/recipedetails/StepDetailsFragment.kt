@@ -29,20 +29,18 @@ import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import dagger.android.support.AndroidSupportInjection
-import java.util.*
 import javax.inject.Inject
 
 /**
  * See: https://exoplayer.dev/hello-world.html
  * See: https://github.com/googlecodelabs/exoplayer-intro/tree/master
  * See: https://codelabs.developers.google.com/codelabs/exoplayer-intro
- * See: https://www.raywenderlich.com/5573-media-playback-on-android-with-exoplayer-getting-started
  */
 
 private const val PLAY_WHEN_READY_KEY = "SHOULD_PLAY_WHEN_READY_KEY";
 private const val PLAYBACK_POSITION_KEY = "CURRENT_PLAYBACK_POSITION_KEY";
-private const val CURRENT_WINDOW = "CURRENT_WINDOW"
-private const val CURRENT_STEP_INDEX = "CURRENT_STEP_INDEX"
+private const val CURRENT_WINDOW_KEY = "CURRENT_WINDOW"
+private const val CURRENT_STEP_INDEX_KEY = "CURRENT_STEP_INDEX"
 
 class StepDetailsFragment : Fragment() {
 
@@ -55,9 +53,9 @@ class StepDetailsFragment : Fragment() {
     private var simpleExoPlayer: SimpleExoPlayer? = null
     private var playWhenReady = true
     private var playbackPosition: Long = 0
-    private var currentWindow = 0
-    private var currentStepIndex = -1
-    private var recipeId = -1
+    private var currentWindow: Int = 0
+    private var currentStepIndex: Int = -1
+    private var recipeId: Int = -1
     private var isTwoPane = false
 
 
@@ -92,12 +90,60 @@ class StepDetailsFragment : Fragment() {
     }
 
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(PLAY_WHEN_READY_KEY, playWhenReady)
+        outState.putLong(PLAYBACK_POSITION_KEY, playbackPosition)
+        outState.putInt(CURRENT_WINDOW_KEY, currentWindow)
+        outState.putInt(CURRENT_STEP_INDEX_KEY, currentStepIndex)
+    }
 
-        enableFullscreenMode()
+
+    private fun restoreInstanceState(savedInstanceState: Bundle?) {
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(PLAY_WHEN_READY_KEY)) {
+                playWhenReady =  savedInstanceState.getBoolean(PLAY_WHEN_READY_KEY)
+            }
+            if (savedInstanceState.containsKey(PLAYBACK_POSITION_KEY)) {
+                playbackPosition = savedInstanceState.getLong(PLAYBACK_POSITION_KEY)
+            }
+            if (savedInstanceState.containsKey(CURRENT_WINDOW_KEY)) {
+                currentWindow =  savedInstanceState.getInt(CURRENT_WINDOW_KEY)
+            }
+            if (savedInstanceState.containsKey(CURRENT_STEP_INDEX_KEY)) {
+                currentStepIndex =  savedInstanceState.getInt(CURRENT_STEP_INDEX_KEY)
+            }
+        }
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        if (isFullscreenMode()) hideSystemUi()
         getIntentExtras()
         restoreInstanceState(savedInstanceState)
         observeCurrentStep()
+    }
+
+
+    private fun isFullscreenMode(): Boolean {
+        return resources.configuration.smallestScreenWidthDp < 600 &&
+                resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+    }
+
+
+    private fun hideSystemUi() {
+        // https://developer.android.com/training/system-ui/immersive#EnableFullscreen
+        (activity as AppCompatActivity).window.decorView.systemUiVisibility =
+                // Enables regular immersive mode.
+                View.SYSTEM_UI_FLAG_IMMERSIVE or
+                // Set the content to appear under the system bars so that the
+                // content doesn't resize when the system bars hide and show.
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                // Hide the nav bar and the status bar.
+                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
+                View.SYSTEM_UI_FLAG_FULLSCREEN
     }
 
 
@@ -237,56 +283,5 @@ class StepDetailsFragment : Fragment() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             releasePlayer()
         }
-    }
-
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putBoolean(PLAY_WHEN_READY_KEY, playWhenReady)
-        outState.putLong(PLAYBACK_POSITION_KEY, playbackPosition)
-        outState.putInt(CURRENT_WINDOW, currentWindow)
-        outState.putInt(CURRENT_STEP_INDEX, currentStepIndex)
-    }
-
-    private fun restoreInstanceState(savedInstanceState: Bundle?) {
-        if (savedInstanceState != null) {
-            if (savedInstanceState.containsKey(PLAY_WHEN_READY_KEY)) {
-                playWhenReady =  savedInstanceState.getBoolean(PLAY_WHEN_READY_KEY)
-            }
-            if (savedInstanceState.containsKey(PLAYBACK_POSITION_KEY)) {
-                playbackPosition = savedInstanceState.getLong(PLAYBACK_POSITION_KEY)
-            }
-            if (savedInstanceState.containsKey(CURRENT_WINDOW)) {
-                currentWindow =  savedInstanceState.getInt(CURRENT_WINDOW)
-            }
-            if (savedInstanceState.containsKey(CURRENT_STEP_INDEX)) {
-                currentStepIndex =  savedInstanceState.getInt(CURRENT_STEP_INDEX)
-            }
-
-        }
-    }
-
-
-    private fun enableFullscreenMode() {
-        if (isFullscreenMode()) {
-            // Hide system UI
-            // See: https://developer.android.com/training/system-ui/immersive#EnableFullscreen
-            activity!!.window.decorView.systemUiVisibility =
-                    // Enables regular immersive mode.
-                    View.SYSTEM_UI_FLAG_IMMERSIVE or
-                    // Set the content to appear under the system bars so that the
-                    // content doesn't resize when the system bars hide and show.
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-                    // Hide the nav bar and the status bar.
-                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
-                    View.SYSTEM_UI_FLAG_FULLSCREEN
-        }
-    }
-
-    private fun isFullscreenMode(): Boolean {
-        return resources.configuration.smallestScreenWidthDp < 600 &&
-                resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
     }
 }

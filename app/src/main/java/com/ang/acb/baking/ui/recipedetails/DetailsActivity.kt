@@ -25,6 +25,9 @@ class DetailsActivity : AppCompatActivity(), HasSupportFragmentInjector {
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
 
+    @Inject
+    lateinit var navigationController: NavigationController
+
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> {
         // Note: a DispatchingAndroidInjector<T> performs members-injection
@@ -44,13 +47,17 @@ class DetailsActivity : AppCompatActivity(), HasSupportFragmentInjector {
         val recipeId = intent.getIntExtra(EXTRA_RECIPE_ID, INVALID_RECIPE_ID)
         if (recipeId == INVALID_RECIPE_ID) closeOnError()
 
-        val navigationController = NavigationController(this)
-
         if (savedInstanceState == null) {
-            navigationController.navigateToRecipeDetails(recipeId, isTwoPane())
-            if (isTwoPane()) {
-                navigationController.navigateToStepDetails(recipeId, 0, isTwoPane())
-            }
+            // Display only recipe details (ingredients list ans step list) on phones.
+            navigationController.navigateToRecipeDetails(
+                recipeId, isTwoPane()
+            )
+
+            // Display both recipe details (ingredients list ans step list)
+            // and step details on tablets.
+            if (isTwoPane()) navigationController.navigateToStepDetails(
+                recipeId, 0, isTwoPane()
+            )
         }
 
         // Handle Up navigation
@@ -66,16 +73,5 @@ class DetailsActivity : AppCompatActivity(), HasSupportFragmentInjector {
     private fun closeOnError() {
         finish()
         Toast.makeText(this, R.string.detail_error_message, Toast.LENGTH_SHORT).show()
-    }
-
-    // See: https://stackoverflow.com/questions/12276027/how-can-i-return-to-a-parent-activity-correctly
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.home -> {
-                NavUtils.navigateUpFromSameTask(this)
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 }
