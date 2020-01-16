@@ -29,5 +29,3 @@ On landscape mode recipe video takes up the full screen:
 
 <img src="/screenshots/phone_step_details_land.png" width="500"/>
 
-## Screenshots Tablet
-<img src="/screenshots/tablet_details_land.png" width="600"/> <img src="/screenshots/tablet_details_port2.png" width="400"/>
