@@ -8,18 +8,20 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/colorPrimary"
-    android:padding="@dimen/widget_margin">
+    android:padding="@dimen/widget_margin"
+    android:background="@android:color/white">
 
     <TextView
         android:id="@+id/widget_ingredients_list_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/colorAccent"
+        android:drawableStart="@drawable/ic_cake_black_24dp"
+        android:drawableTint="@android:color/white"
+        android:drawablePadding="@dimen/padding_small"
         android:padding="@dimen/padding_normal"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:textColor="@android:color/white"
-        android:textStyle="bold"
         tools:text="Nutella"/>
 
     <ListView
@@ -35,7 +37,6 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/empty_widget"
-        android:textSize="14sp"
-        android:textStyle="bold" />
+        android:textSize="14sp" />
 
 </LinearLayout>

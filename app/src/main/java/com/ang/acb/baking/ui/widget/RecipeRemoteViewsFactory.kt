@@ -5,12 +5,9 @@ import android.content.Intent
 import android.widget.AdapterView
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService.RemoteViewsFactory
-import androidx.room.Room
 import com.ang.acb.baking.R
 import com.ang.acb.baking.data.database.RecipeDao
 import com.ang.acb.baking.data.database.RecipeDetails
-import com.ang.acb.baking.data.database.RecipesDatabase
-import com.ang.acb.baking.data.repository.RecipeRepository
 import java.util.*
 import javax.inject.Inject
 
@@ -20,7 +17,8 @@ import javax.inject.Inject
  *
  * See: https://developer.android.com/guide/topics/appwidgets#remoteviewsfactory-interface
  */
-class RecipeRemoteViewsFactory(
+class RecipeRemoteViewsFactory
+@Inject constructor(
     private val context: Context,
     private val recipeDao: RecipeDao
 ) : RemoteViewsFactory {
@@ -29,12 +27,18 @@ class RecipeRemoteViewsFactory(
 
     override fun onCreate() {}
 
+    /**
+     * Called when notifyDataSetChanged() is triggered on the remote adapter.
+     * This allows a RemoteViewsFactory to respond to data changes by updating
+     * any internal references. Note: expensive tasks can be safely performed
+     * synchronously within this method. In the interim, the old data will be
+     * displayed within the widget.
+     */
     override fun onDataSetChanged() {
         val recipeId = PreferencesUtils.getWidgetRecipeId(context)
         if (recipeId != -1) {
             ingredients = ArrayList()
-            val recipeDetails: RecipeDetails? =
-                recipeDao.getRecipeDetailsForWidget(recipeId)
+            val recipeDetails: RecipeDetails? = recipeDao.getRecipeDetailsSync(recipeId)
             recipeDetails?.ingredients?.forEach { ingredient ->
                 ingredients.add(String.format(
                         Locale.getDefault(),

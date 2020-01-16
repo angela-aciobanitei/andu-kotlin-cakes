@@ -8,7 +8,6 @@
         <variable
             name="step"
             type="com.ang.acb.baking.data.database.Step"/>
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

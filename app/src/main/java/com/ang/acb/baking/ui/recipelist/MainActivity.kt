@@ -16,8 +16,12 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
+
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
+
+
+    override fun supportFragmentInjector() = dispatchingAndroidInjector
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,15 +34,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
             // Navigate to recipe list fragment.
             supportFragmentManager.beginTransaction()
                 .replace(R.id.main_container, RecipeListFragment())
-                .addToBackStack(null)
                 .commit()
         }
-    }
-
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
-        // Note: a DispatchingAndroidInjector<T> performs members-injection
-        // on instances of core Android types (e.g. Activity, Fragment) that
-        // are constructed by the Android framework and not by Dagger.
-        return dispatchingAndroidInjector
     }
 }

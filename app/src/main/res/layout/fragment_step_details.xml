@@ -8,7 +8,6 @@
         <variable
             name="step"
             type="com.ang.acb.baking.data.database.Step"/>
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -85,8 +84,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/next_step_button"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintHorizontal_bias="0.5"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
 
         <Button
@@ -98,8 +97,8 @@
             android:text="@string/next"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/previous_step_button"
+            app:layout_constraintHorizontal_bias="0.5"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

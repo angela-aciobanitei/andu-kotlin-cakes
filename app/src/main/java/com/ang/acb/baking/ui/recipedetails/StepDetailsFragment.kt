@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -75,6 +76,12 @@ class StepDetailsFragment : Fragment() {
         // When using Dagger with Fragments, inject as early as possible.
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
+    }
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
 
@@ -282,6 +289,17 @@ class StepDetailsFragment : Fragment() {
         // because of the multi window support that was added in Android N.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             releasePlayer()
+        }
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.home -> {
+                (activity as DetailsActivity).onBackPressed()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 }

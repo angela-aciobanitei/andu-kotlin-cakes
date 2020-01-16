@@ -1,18 +1,18 @@
 package com.ang.acb.baking.ui.recipedetails
 
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NavUtils
 import androidx.fragment.app.Fragment
 import com.ang.acb.baking.R
+import com.ang.acb.baking.ui.recipelist.MainActivity
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
+
 
 const val EXTRA_STEP_POSITION = "EXTRA_STEP_POSITION"
 const val EXTRA_IS_TWO_PANE = "EXTRA_IS_TWO_PANE"
@@ -21,20 +21,13 @@ const val INVALID_RECIPE_ID = -1
 
 class DetailsActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
+    @Inject
+    lateinit var navigationController: NavigationController
 
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
 
-    @Inject
-    lateinit var navigationController: NavigationController
-
-
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
-        // Note: a DispatchingAndroidInjector<T> performs members-injection
-        // on instances of core Android types (e.g. Activity, Fragment) that
-        // are constructed by the Android framework and not by Dagger.
-        return dispatchingAndroidInjector
-    }
+    override fun supportFragmentInjector() = dispatchingAndroidInjector
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,8 +53,7 @@ class DetailsActivity : AppCompatActivity(), HasSupportFragmentInjector {
             )
         }
 
-        // Handle Up navigation
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDefaultDisplayHomeAsUpEnabled(true)
     }
 
 
@@ -72,6 +64,10 @@ class DetailsActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
     private fun closeOnError() {
         finish()
-        Toast.makeText(this, R.string.detail_error_message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            this,
+            R.string.detail_error_message,
+            Toast.LENGTH_SHORT)
+                .show()
     }
 }

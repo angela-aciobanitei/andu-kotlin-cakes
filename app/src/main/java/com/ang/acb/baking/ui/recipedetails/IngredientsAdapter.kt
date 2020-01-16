@@ -35,7 +35,8 @@ class IngredientViewHolder constructor(val binding: ItemIngredientBinding)
     companion object {
         fun from(parent: ViewGroup): IngredientViewHolder {
             val inflater = LayoutInflater.from(parent.context)
-            val binding = ItemIngredientBinding.inflate(inflater, parent, false)
+            val binding = ItemIngredientBinding
+                .inflate(inflater, parent, false)
 
             return IngredientViewHolder(binding)
         }
