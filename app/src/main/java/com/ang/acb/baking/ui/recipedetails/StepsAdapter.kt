@@ -8,24 +8,27 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ang.acb.baking.data.database.Step
 import com.ang.acb.baking.databinding.ItemStepBinding
 
-
+/**
+ * A custom [ListAdapter] for the [Step] list.
+ */
 class StepsAdapter(val stepClickListener: StepClickListener) :
     ListAdapter<Step, StepViewHolder>(StepDiffCallback()) {
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StepViewHolder {
         return StepViewHolder.from(parent)
     }
-
 
     override fun onBindViewHolder(holder: StepViewHolder, position: Int) {
         holder.bind(stepClickListener,getItem(position), position)
     }
 }
 
-
-class StepViewHolder constructor(val binding: ItemStepBinding)
-    : RecyclerView.ViewHolder(binding.root) {
+/**
+ * A simple ViewHolder that can bind a [Step] item.
+ */
+class StepViewHolder constructor(
+    val binding: ItemStepBinding
+) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(stepClickListener: StepClickListener, step: Step, position: Int) {
         binding.step = step
@@ -44,7 +47,13 @@ class StepViewHolder constructor(val binding: ItemStepBinding)
     }
 }
 
-
+/**
+ * Callback for calculating the diff between two non-null items in a list.
+ *
+ * Used by [ListAdapter] to calculate the minimum number of changes between
+ * and old list and a new list that's been passed to `submitList`.
+ * See: https://codelabs.developers.google.com/codelabs/kotlin-android-training-diffutil-databinding
+ */
 class StepDiffCallback : DiffUtil.ItemCallback<Step>() {
     override fun areItemsTheSame(oldItem: Step, newItem: Step): Boolean {
         return oldItem.stepId == newItem.stepId
@@ -55,7 +64,9 @@ class StepDiffCallback : DiffUtil.ItemCallback<Step>() {
     }
 }
 
-
+/**
+ * Handles [Step] item click events.
+ */
 class StepClickListener(val clickListener: (position:Int) -> Unit){
     fun onClick(position:Int) = clickListener(position)
 }

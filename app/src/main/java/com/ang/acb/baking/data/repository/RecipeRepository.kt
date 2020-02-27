@@ -7,6 +7,9 @@ import com.ang.acb.baking.utils.AppExecutors
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Repository module for handling data operations.
+ */
 @Singleton
 class RecipeRepository
 @Inject constructor (
@@ -46,7 +49,6 @@ class RecipeRepository
             }
         }.asLiveData()
     }
-
 
     fun getRecipeDetails(recipeId: Int): LiveData<RecipeDetails> {
         return database.recipeDao.getRecipeDetails(recipeId)

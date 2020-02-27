@@ -11,7 +11,9 @@ open class Event<out T>(private val content: T) {
     var hasBeenHandled = false
         private set
 
-    // Returns the content and prevents its use again.
+    /**
+     * Returns the content and prevents its use again.
+     */
     fun getContentIfNotHandled(): T? {
         return if (hasBeenHandled) {
             null
@@ -21,6 +23,8 @@ open class Event<out T>(private val content: T) {
         }
     }
 
-    // Returns the content, even if it's already been handled.
+    /**
+     * Returns the content, even if it's already been handled.
+     */
     fun peekContent(): T = content
 }

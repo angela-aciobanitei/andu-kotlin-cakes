@@ -7,11 +7,16 @@ import dagger.Component
 import dagger.android.AndroidInjectionModule
 import javax.inject.Singleton
 
+/**
+ * Definition of a Dagger component that adds info from the different modules to the graph.
+ * Classes annotated with @Singleton will have a unique instance in this Component.
+ */
 @Singleton
 @Component(
     modules = [
         AndroidInjectionModule::class,
-        AppModule::class,
+        RoomModule::class,
+        RestModule::class,
         MainActivityModule::class,
         DetailsActivityModule::class,
         ServiceBuilderModule::class]

@@ -32,17 +32,19 @@ import com.google.android.exoplayer2.util.Util
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
-/**
- * See: https://exoplayer.dev/hello-world.html
- * See: https://github.com/googlecodelabs/exoplayer-intro/tree/master
- * See: https://codelabs.developers.google.com/codelabs/exoplayer-intro
- */
 
 private const val PLAY_WHEN_READY_KEY = "SHOULD_PLAY_WHEN_READY_KEY";
 private const val PLAYBACK_POSITION_KEY = "CURRENT_PLAYBACK_POSITION_KEY";
 private const val CURRENT_WINDOW_KEY = "CURRENT_WINDOW"
 private const val CURRENT_STEP_INDEX_KEY = "CURRENT_STEP_INDEX"
 
+/**
+ * A [Fragment] that displays the recipe's step details, including its videos.
+ *
+ * See: https://exoplayer.dev/hello-world.html
+ * See: https://github.com/googlecodelabs/exoplayer-intro/tree/master
+ * See: https://codelabs.developers.google.com/codelabs/exoplayer-intro
+ */
 class StepDetailsFragment : Fragment() {
 
     @Inject
@@ -59,7 +61,6 @@ class StepDetailsFragment : Fragment() {
     private var recipeId: Int = -1
     private var isTwoPane = false
 
-
     companion object {
         fun newInstance(recipeId: Int, stepPosition: Int, isTwoPane: Boolean) =
             StepDetailsFragment().apply {
@@ -71,19 +72,16 @@ class StepDetailsFragment : Fragment() {
             }
     }
 
-
     override fun onAttach(context: Context) {
         // When using Dagger with Fragments, inject as early as possible.
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -96,7 +94,6 @@ class StepDetailsFragment : Fragment() {
         return binding.root
     }
 
-
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putBoolean(PLAY_WHEN_READY_KEY, playWhenReady)
@@ -104,7 +101,6 @@ class StepDetailsFragment : Fragment() {
         outState.putInt(CURRENT_WINDOW_KEY, currentWindow)
         outState.putInt(CURRENT_STEP_INDEX_KEY, currentStepIndex)
     }
-
 
     private fun restoreInstanceState(savedInstanceState: Bundle?) {
         if (savedInstanceState != null) {
@@ -123,7 +119,6 @@ class StepDetailsFragment : Fragment() {
         }
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         if (isFullscreenMode()) hideSystemUi()
         getIntentExtras()
@@ -131,15 +126,13 @@ class StepDetailsFragment : Fragment() {
         observeCurrentStep()
     }
 
-
     private fun isFullscreenMode(): Boolean {
         return resources.configuration.smallestScreenWidthDp < 600 &&
                 resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
     }
 
-
     private fun hideSystemUi() {
-        // https://developer.android.com/training/system-ui/immersive#EnableFullscreen
+        // See: https://developer.android.com/training/system-ui/immersive#EnableFullscreen
         (activity as AppCompatActivity).window.decorView.systemUiVisibility =
                 // Enables regular immersive mode.
                 View.SYSTEM_UI_FLAG_IMMERSIVE or
@@ -153,7 +146,6 @@ class StepDetailsFragment : Fragment() {
                 View.SYSTEM_UI_FLAG_FULLSCREEN
     }
 
-
     private fun getIntentExtras() {
         arguments?.let {
             recipeId = it.getInt(EXTRA_RECIPE_ID)
@@ -161,7 +153,6 @@ class StepDetailsFragment : Fragment() {
             isTwoPane = it.getBoolean(EXTRA_IS_TWO_PANE, false)
         }
     }
-
 
     private fun observeCurrentStep() {
         viewModel.init(recipeId, currentStepIndex)
@@ -180,16 +171,15 @@ class StepDetailsFragment : Fragment() {
         })
     }
 
-
     private fun handleStepUrl(step: Step) {
         // If step has a video, initialize player, else display an image.
         if (!TextUtils.isEmpty(step.videoURL)) {
-            val videoUri = Uri.parse(step.videoURL)
-            videoUri?.let { initializePlayer(it) }
+            Uri.parse(step.videoURL)?.let {
+                initializePlayer(it)
+            }
         } else {
             if (!TextUtils.isEmpty(step.thumbnailURL)) {
-                GlideApp
-                    .with(binding.placeholderImage.context)
+                GlideApp.with(binding.placeholderImage.context)
                     .load(step.thumbnailURL)
                     // Display a placeholder while the image is loading.
                     .placeholder(R.drawable.loading_animation)
@@ -205,7 +195,6 @@ class StepDetailsFragment : Fragment() {
             }
         }
     }
-
 
     private fun handleStepButtons() {
         if (!isFullscreenMode()) {
@@ -226,9 +215,8 @@ class StepDetailsFragment : Fragment() {
         }
     }
 
-
     private fun initializePlayer(mediaUri: Uri) {
-        // https://codelabs.developers.google.com/codelabs/exoplayer-intro
+        // See: https://codelabs.developers.google.com/codelabs/exoplayer-intro
         if (simpleExoPlayer == null) {
             // Create the player using the ExoPlayerFactory.
             simpleExoPlayer = ExoPlayerFactory.newSimpleInstance(requireContext())
@@ -245,11 +233,11 @@ class StepDetailsFragment : Fragment() {
             .createMediaSource(mediaUri)
 
         // Prepare the player with the source.
-        simpleExoPlayer!!.prepare(mediaSource)
+        simpleExoPlayer?.prepare(mediaSource)
 
         // Control the player.
-        simpleExoPlayer!!.seekTo(currentWindow, playbackPosition)
-        simpleExoPlayer!!.playWhenReady = playWhenReady
+        simpleExoPlayer?.seekTo(currentWindow, playbackPosition)
+        simpleExoPlayer?.playWhenReady = playWhenReady
     }
 
 
@@ -265,14 +253,12 @@ class StepDetailsFragment : Fragment() {
         }
     }
 
-
     private fun resetPlayer() {
         playWhenReady = true
         playbackPosition = 0
         currentWindow = 0
         if (simpleExoPlayer != null) simpleExoPlayer!!.stop()
     }
-
 
     override fun onPause() {
         super.onPause()
@@ -282,7 +268,6 @@ class StepDetailsFragment : Fragment() {
         }
     }
 
-
     override fun onStop() {
         super.onStop()
         // Release the player in onStop() if on Android Nougat and above
@@ -291,7 +276,6 @@ class StepDetailsFragment : Fragment() {
             releasePlayer()
         }
     }
-
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {

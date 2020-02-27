@@ -3,6 +3,9 @@ package com.ang.acb.baking.data.database
 import androidx.lifecycle.LiveData
 import androidx.room.*
 
+/**
+ * Interface for database access on [Recipe] related operations.
+ */
 @Dao
 abstract class RecipeDao {
 
@@ -51,7 +54,9 @@ abstract class RecipeDao {
     abstract fun getDetailedRecipes(): LiveData<List<RecipeDetails>>
 }
 
-
+/**
+ * The [Room] database for this app.
+ */
 @Database(
     entities = [Recipe::class, Ingredient::class, Step::class],
     version = 3,

@@ -51,9 +51,7 @@ abstract class NetworkBoundResource<ResultType, RequestType>
         }
     }
 
-    /**
-     * Fetch the data from network and persist into DB and then send it back to UI.
-     */
+    // Fetch the data from network and persist into DB and then send it back to UI.
     private fun fetchFromNetwork(dbSource: LiveData<ResultType>) {
         // Create the API call to load data from themoviedb.org.
         val apiResponse = createCall()

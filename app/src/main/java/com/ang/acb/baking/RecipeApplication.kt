@@ -10,7 +10,11 @@ import dagger.android.HasServiceInjector
 import timber.log.Timber
 import javax.inject.Inject
 
-
+/**
+ * When using Dagger for injecting Activities or Services, you need to create a
+ * custom Application that implements HasAndroidInjector and HasServiceInjector,
+ * respectively. See: https://dagger.dev/android.html.
+ */
 class RecipeApplication: Application(), HasActivityInjector, HasServiceInjector {
 
     @Inject

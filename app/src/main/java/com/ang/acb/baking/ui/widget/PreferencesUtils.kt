@@ -4,6 +4,9 @@ import android.content.Context
 import androidx.preference.PreferenceManager
 import com.ang.acb.baking.R
 
+/**
+ * Contains helper methods for saving data to SharedPreferences.
+ */
 object PreferencesUtils {
 
     fun setWidgetRecipeId(context: Context, recipeId: Int) {

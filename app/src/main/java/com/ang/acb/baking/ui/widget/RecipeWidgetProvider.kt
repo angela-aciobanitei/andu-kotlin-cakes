@@ -8,10 +8,12 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.RemoteViews
 import com.ang.acb.baking.R
+import com.ang.acb.baking.ui.recipedetails.DetailsActivity
+import com.ang.acb.baking.ui.recipedetails.EXTRA_RECIPE_ID
 import com.ang.acb.baking.ui.recipelist.MainActivity
 
 /**
- * The AppWidgetProvider class implementation. Defines the basic methods that allow
+ * The [AppWidgetProvider] class implementation. Defines the basic methods that allow
  * you to programmatically interact with the App Widget, based on broadcast events.
  * Through it, you will receive broadcasts when the App Widget is updated, enabled,
  * disabled and deleted.
@@ -42,19 +44,20 @@ class RecipeWidgetProvider : AppWidgetProvider() {
             context: Context, appWidgetManager: AppWidgetManager,
             appWidgetIds: IntArray
         ) {
+            // Update each of the app widgets with the remote adapter
             appWidgetIds.forEach { appWidgetId ->
                 // Set up the intent that starts the RecipeRemoteViewsService,
                 // which will provide the views for this collection.
-                val serviceIntent = Intent(context, RecipeRemoteViewsService::class.java)
-                    .apply {
+                val serviceIntent =
+                    Intent(context, RecipeRemoteViewsService::class.java).apply {
                         // Add the app widget ID to the intent extras.
                         putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
                         data = Uri.parse(toUri(Intent.URI_INTENT_SCHEME))
                     }
 
                 // Instantiate the RemoteViews object for the app widget layout.
-                val remoteViews = RemoteViews(context.packageName, R.layout.widget_recipe)
-                    .apply {
+                val remoteViews =
+                    RemoteViews(context.packageName, R.layout.widget_recipe).apply {
                         // Set widget title.
                         setTextViewText(
                             R.id.widget_ingredients_list_title,
@@ -70,8 +73,8 @@ class RecipeWidgetProvider : AppWidgetProvider() {
                     }
 
                 // Create an pending intent to launch MainActivity.
-                val mainPendingIntent: PendingIntent = Intent(context, MainActivity::class.java)
-                    .let { mainActivityIntent ->
+                val mainPendingIntent: PendingIntent =
+                    Intent(context, MainActivity::class.java).let { mainActivityIntent ->
                         PendingIntent.getActivity(context, appWidgetId, mainActivityIntent, 0)
                     }
 
@@ -82,13 +85,13 @@ class RecipeWidgetProvider : AppWidgetProvider() {
                 // behavior using RemoteViews#setOnClickFillInIntent(int, Intent).
                 // https://developer.android.com/guide/topics/appwidgets#setting-up-the-pending-intent-template
                 remoteViews.setPendingIntentTemplate(
-                    R.id.widget_ingredients_list_items, mainPendingIntent
+                    R.id.widget_ingredients_list_items,
+                    mainPendingIntent
                 )
 
-                // Equivalent of calling View.setOnClickListener(android.view.View.OnClickListener)
-                // to launch the provided RemoteResponse.
                 remoteViews.setOnClickPendingIntent(
-                    R.id.widget_recipe_container, mainPendingIntent
+                    R.id.widget_recipe_container,
+                    mainPendingIntent
                 )
 
                 // Tell the AppWidgetManager to perform an update on the current app widget.

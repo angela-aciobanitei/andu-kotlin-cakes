@@ -35,10 +35,19 @@ sealed class ApiResponse<T> {
 }
 
 /**
- * Separate class for HTTP 204 responses so that ApiSuccessResponse's body can be non-null.
+ * The API response when the HTTP status code in 204 (no content)
+ * and the response body is null.
  */
 class ApiEmptyResponse<T> : ApiResponse<T>()
 
+/**
+ * The API response when the HTTP status code in the range [200..300)
+ * and the response body is non-null.
+ */
 data class ApiSuccessResponse<T>(val body: T) : ApiResponse<T>()
 
+/**
+ * The API response when the HTTP status code is greater than 400
+ * (like 4xx for Client Error, or 5xx for a Server Error).
+ */
 data class ApiErrorResponse<T>(val errorMessage: String) : ApiResponse<T>()

@@ -6,9 +6,14 @@ import timber.log.Timber
 import javax.inject.Inject
 
 /**
- * A utility class that handles navigation in DetailsActivity.
+ * A utility class that handles navigation in [DetailsActivity].
  *
- * See: https://github.com/android/architecture-components-samples/tree/7f3179f6599e15d4a21e8406c047bfe1e277cf69/GithubBrowserSample
+ * Note: the ideal solution to handle navigation would be to use Navigation Component,
+ * but this app's UI uses Master-Detail flow for Tablets, and the only example I could
+ * find was this, which isn't very helpful for my case, since [StepDetailsFragment]
+ * functionality is pretty complicated.
+ *
+ * https://proandroiddev.com/master-detail-views-with-navigation-components-a20405f31974
  */
 class NavigationController
 @Inject constructor(detailsActivity: DetailsActivity) {
@@ -16,7 +21,6 @@ class NavigationController
     private val recipeDetailsContainerId: Int = R.id.partial_details_fragment_container
     private val stepsDetailsContainerId: Int = R.id.step_details_fragment_container
     private val fragmentManager: FragmentManager = detailsActivity.supportFragmentManager
-
 
     fun navigateToRecipeDetails(recipeId: Int, isTwoPane: Boolean) {
         val fragment = RecipeDetailsFragment
@@ -27,7 +31,6 @@ class NavigationController
             .replace(recipeDetailsContainerId, fragment, tag)
             .commit()
     }
-
 
     fun navigateToStepDetails(recipeId: Int, stepPosition: Int, isTwoPane: Boolean) {
         val tag = "Recipe $recipeId, step $stepPosition, isTwoPane $isTwoPane"

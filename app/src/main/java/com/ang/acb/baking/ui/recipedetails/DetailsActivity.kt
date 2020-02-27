@@ -6,9 +6,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.ang.acb.baking.R
-import com.ang.acb.baking.ui.recipelist.MainActivity
+import com.ang.acb.baking.ui.widget.PreferencesUtils
 import dagger.android.AndroidInjection
-import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
@@ -19,6 +18,9 @@ const val EXTRA_IS_TWO_PANE = "EXTRA_IS_TWO_PANE"
 const val EXTRA_RECIPE_ID = "EXTRA_RECIPE_ID"
 const val INVALID_RECIPE_ID = -1
 
+/**
+ * The UI Controller for displaying the details of a recipe loaded from the network.
+ */
 class DetailsActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
     @Inject
@@ -52,15 +54,12 @@ class DetailsActivity : AppCompatActivity(), HasSupportFragmentInjector {
                 recipeId, 0, isTwoPane()
             )
         }
-
-        supportActionBar?.setDefaultDisplayHomeAsUpEnabled(true)
+        //supportActionBar?.setDefaultDisplayHomeAsUpEnabled(true)
     }
-
 
     private fun isTwoPane(): Boolean {
         return findViewById<View?>(R.id.step_details_fragment_container) != null
     }
-
 
     private fun closeOnError() {
         finish()

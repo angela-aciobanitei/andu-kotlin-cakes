@@ -7,7 +7,9 @@ import java.lang.reflect.Type
 import java.util.concurrent.atomic.AtomicBoolean
 
 /**
- * A Retrofit adapter that converts the Call into a LiveData of ApiResponse.
+ * A Retrofit adapter that converts the [Retrofit] [Call]
+ * into a [LiveData] of [ApiResponse].
+ *
  * See: https://github.com/android/architecture-components-samples/tree/master/GithubBrowserSample
  */
 class LiveDataCallAdapter<R>(private val responseType: Type) :
@@ -36,6 +38,10 @@ class LiveDataCallAdapter<R>(private val responseType: Type) :
     }
 }
 
+/**
+ * A factory class for creating an adapter that converts
+ * the  [Retrofit] [Call] into a [LiveData] of [ApiResponse].
+ */
 class LiveDataCallAdapterFactory : CallAdapter.Factory() {
     override fun get(
         returnType: Type,

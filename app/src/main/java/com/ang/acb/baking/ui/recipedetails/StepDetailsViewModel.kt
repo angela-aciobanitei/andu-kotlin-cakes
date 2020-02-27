@@ -1,13 +1,18 @@
 package com.ang.acb.baking.ui.recipedetails
 
 import androidx.lifecycle.*
+import androidx.lifecycle.Transformations.*
 import com.ang.acb.baking.data.database.Step
 import com.ang.acb.baking.data.network.Resource
 import com.ang.acb.baking.data.repository.RecipeRepository
 import javax.inject.Inject
 
-class StepDetailsViewModel
-@Inject constructor(private val recipesRepository: RecipeRepository): ViewModel() {
+/**
+ * The [ViewModel] for [StepDetailsFragment].
+ */
+class StepDetailsViewModel @Inject constructor(
+    private val recipesRepository: RecipeRepository
+): ViewModel() {
 
     private val _recipeId = MutableLiveData<Int>()
 
@@ -15,20 +20,16 @@ class StepDetailsViewModel
     private val currentPosition: LiveData<Int>
         get() = _currentPosition
 
+    private var _stepsSize = 0
 
-    private val steps = Transformations.switchMap(_recipeId) {
-        recipesRepository.getRecipeSteps(it)
-    }
+    private val steps = switchMap(_recipeId, recipesRepository::getRecipeSteps)
 
     val step = currentStep()
-
-    private var _stepsSize = 0
 
     fun init(recipeId: Int, stepPosition: Int) {
         _recipeId.value = recipeId
         _currentPosition.value = stepPosition
     }
-
 
     // See: https://medium.com/androiddevelopers/livedata-beyond-the-viewmodel-reactive-patterns-using-transformations-and-mediatorlivedata-fda520ba00b7
     private fun currentStep(): MediatorLiveData<Resource<Step>> {
@@ -46,7 +47,6 @@ class StepDetailsViewModel
         }
         return result
     }
-
 
     private fun combineLatestData(
         positionResult: LiveData<Int>,
@@ -66,8 +66,7 @@ class StepDetailsViewModel
         }
     }
 
-
-    fun hasPrev():Boolean {
+    fun hasPrev(): Boolean {
         // pos > 0
         return compareValues(_currentPosition.value, 0) > 0
     }
@@ -77,16 +76,11 @@ class StepDetailsViewModel
         return compareValues(_stepsSize, _currentPosition.value?.plus(1)) > 0
     }
 
-
     fun onPrev() {
-        if (hasPrev()){
-            _currentPosition.value = _currentPosition.value?.minus(1)
-        }
+        if (hasPrev()) _currentPosition.value = _currentPosition.value?.minus(1)
     }
 
     fun onNext() {
-        if (hasNext()){
-            _currentPosition.value = _currentPosition.value?.plus(1)
-        }
+        if (hasNext()) _currentPosition.value = _currentPosition.value?.plus(1)
     }
 }

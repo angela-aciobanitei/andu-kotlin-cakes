@@ -6,6 +6,11 @@ import com.ang.acb.baking.data.database.Step
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
+
+/**
+ * A Data Transfer Object representing a detailed recipe,
+ * including its steps and its ingredients.
+ */
 @JsonClass(generateAdapter = true)
 data class NetworkRecipe(
     val id: Int? = null,
@@ -16,6 +21,9 @@ data class NetworkRecipe(
     val steps: List<NetworkStep>?
 )
 
+/**
+ * A Data Transfer Object representing a recipe step.
+ */
 data class NetworkStep(
     @Json(name = "id")
     val id: Int?,
@@ -25,15 +33,18 @@ data class NetworkStep(
     val thumbnailURL: String?
 )
 
-
+/**
+ * A Data Transfer Object representing a recipe ingredient.
+ */
 data class NetworkIngredient(
     val quantity: Double?,
     val measure: String?,
     val ingredient: String?
 )
 
-
-
+/**
+ * Converts recipe details network response to a [Recipe] database object.
+ */
 fun NetworkRecipe.recipe(): Recipe {
     return Recipe(
         id = id,
@@ -43,7 +54,10 @@ fun NetworkRecipe.recipe(): Recipe {
     )
 }
 
-
+/**
+ * Converts recipe details network response to a list of database objects,
+ * i.e. an [Ingredient] list.
+ */
 fun NetworkRecipe.ingredients(): List<Ingredient>? {
     return ingredients?.map {
         Ingredient(
@@ -56,7 +70,10 @@ fun NetworkRecipe.ingredients(): List<Ingredient>? {
     }?.toList()
 }
 
-
+/**
+ * Converts recipe details network response to a list of database objects,
+ * i.e. an [Step] list.
+ */
 fun NetworkRecipe.steps(): List<Step>? {
     return steps?.map {
         Step(

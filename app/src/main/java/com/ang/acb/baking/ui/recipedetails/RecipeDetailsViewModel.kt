@@ -3,20 +3,24 @@ package com.ang.acb.baking.ui.recipedetails
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import androidx.lifecycle.Transformations.switchMap
 import androidx.lifecycle.ViewModel
 import com.ang.acb.baking.data.repository.RecipeRepository
 import com.ang.acb.baking.utils.Event
 import javax.inject.Inject
 
-class RecipeDetailsViewModel
-@Inject constructor(private val recipesRepository: RecipeRepository): ViewModel() {
+/**
+ * The [ViewModel] for [RecipeDetailsFragment].
+ */
+class RecipeDetailsViewModel @Inject constructor(
+    private val recipesRepository: RecipeRepository
+): ViewModel() {
 
     // Stores the current recipe ID.
     private val _recipeId = MutableLiveData<Int>()
 
-    val recipeDetails = Transformations.switchMap(_recipeId) {
-        recipesRepository.getRecipeDetails(it)
-    }
+    val recipeDetails =
+        switchMap(_recipeId, recipesRepository::getRecipeDetails)
 
     fun setId(id: Int) {
         _recipeId.value = id

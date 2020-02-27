@@ -9,8 +9,8 @@ import javax.inject.Singleton
 /**
  * A factory class for creating ViewModels. Dagger 2 allows multibindings and
  * with it the possibility to create a "map" of objects with a specific key:
- *      the key: for example the class type of ViewModel MyViewModel::class
- *      the value: the instance of ViewModel MyViewModel(repository, …)
+ *      the key: for example the class type of ViewModel: MyViewModel::class
+ *      the value: the instance of ViewModel: MyViewModel(repository)
  *
  * See: https://github.com/android/android-architecture-components/tree/GithubBrowserSample
  * See: https://blog.kotlin-academy.com/understanding-dagger-2-multibindings-viewmodel-8418eb372848

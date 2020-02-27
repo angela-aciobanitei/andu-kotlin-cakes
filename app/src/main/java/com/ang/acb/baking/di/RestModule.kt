@@ -1,10 +1,6 @@
 package com.ang.acb.baking.di
 
-import android.app.Application
-import androidx.room.Room
 import com.ang.acb.baking.BuildConfig
-import com.ang.acb.baking.data.database.RecipeDao
-import com.ang.acb.baking.data.database.RecipesDatabase
 import com.ang.acb.baking.data.network.ApiService
 import com.ang.acb.baking.data.network.LiveDataCallAdapterFactory
 import com.squareup.moshi.Moshi
@@ -18,11 +14,11 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
 
 /**
- * See: https://github.com/codepath/android_guides/wiki/Dependency-Injection-with-Dagger-2
+ * A Dagger module that provides the API service for this app,
+ * along with other REST API related components.
  */
 @Module(includes = [ViewModelModule::class])
-class AppModule {
-
+class RestModule {
     @Singleton
     @Provides
     fun provideLoggingInterceptor() : HttpLoggingInterceptor {
@@ -31,7 +27,7 @@ class AppModule {
         // we'll use a logging interceptor for OkHttp.
         return HttpLoggingInterceptor().apply {
             level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY
-                    else HttpLoggingInterceptor.Level.NONE
+            else HttpLoggingInterceptor.Level.NONE
         }
     }
 
@@ -43,7 +39,6 @@ class AppModule {
             .addInterceptor(loggingInterceptor)
             .build()
     }
-
 
     @Singleton
     @Provides
@@ -67,21 +62,5 @@ class AppModule {
             .client(okHttpClient)
             .build()
             .create(ApiService::class.java)
-    }
-
-
-    @Singleton
-    @Provides
-    fun provideDatabase(app: Application): RecipesDatabase {
-        return Room
-            .databaseBuilder(app, RecipesDatabase::class.java, "baking")
-            .fallbackToDestructiveMigration()
-            .build()
-    }
-
-    @Singleton
-    @Provides
-    fun provideRecipeDao(database: RecipesDatabase): RecipeDao {
-        return database.recipeDao
     }
 }

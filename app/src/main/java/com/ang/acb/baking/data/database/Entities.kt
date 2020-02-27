@@ -2,7 +2,9 @@ package com.ang.acb.baking.data.database
 
 import androidx.room.*
 
-
+/**
+ * Immutable model class for a recipe.
+ */
 @Entity(tableName = "recipes")
 data class Recipe(
     @PrimaryKey
@@ -13,6 +15,9 @@ data class Recipe(
 )
 
 
+/**
+ * Immutable model class for a recipe ingredient.
+ */
 @Entity(tableName = "ingredients")
 data class Ingredient(
     @PrimaryKey(autoGenerate = true)
@@ -24,6 +29,9 @@ data class Ingredient(
 )
 
 
+/**
+ * Immutable model class for a recipe step.
+ */
 @Entity(tableName = "steps")
 data class Step(
     @PrimaryKey(autoGenerate = true)
@@ -37,23 +45,7 @@ data class Step(
 )
 
 
-// See: https://android.jlelse.eu/android-architecture-components-room-relationships-bf473510c14a
-class RecipeDetails {
-    @Embedded
-    var recipe: Recipe? = null
 
-    @Relation(
-        parentColumn = "id",
-        entityColumn = "recipeId",
-        entity = Ingredient::class)
-    var ingredients: List<Ingredient>? = null
-
-    @Relation(
-        parentColumn = "id",
-        entityColumn = "recipeId",
-        entity = Step::class)
-    var steps: List<Step>? = null
-}
 
 
 
