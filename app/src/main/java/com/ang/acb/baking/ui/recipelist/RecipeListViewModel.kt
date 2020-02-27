@@ -4,9 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ang.acb.baking.data.repository.RecipeRepository
+import com.ang.acb.baking.ui.recipedetails.RecipeDetailsFragment
 import com.ang.acb.baking.utils.Event
 import javax.inject.Inject
 
+/**
+ * The [ViewModel] for [RecipeListFragment].
+ */
 class RecipeListViewModel
 @Inject constructor(private val recipesRepository: RecipeRepository): ViewModel() {
 

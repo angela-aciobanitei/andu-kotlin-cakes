@@ -21,7 +21,7 @@ import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
 /**
- * A [Fragment] that displays a list of recipes.
+ * A [Fragment] that displays the recipe details, including its ingredients and its steps.
  */
 class RecipeDetailsFragment : Fragment() {
 

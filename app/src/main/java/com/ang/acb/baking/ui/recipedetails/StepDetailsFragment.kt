@@ -44,6 +44,7 @@ private const val CURRENT_STEP_INDEX_KEY = "CURRENT_STEP_INDEX"
  * See: https://exoplayer.dev/hello-world.html
  * See: https://github.com/googlecodelabs/exoplayer-intro/tree/master
  * See: https://codelabs.developers.google.com/codelabs/exoplayer-intro
+ * See: https://medium.com/@borrelli/kotlin-and-exoplayer-534c31414f71
  */
 class StepDetailsFragment : Fragment() {
 
@@ -239,8 +240,7 @@ class StepDetailsFragment : Fragment() {
         simpleExoPlayer?.seekTo(currentWindow, playbackPosition)
         simpleExoPlayer?.playWhenReady = playWhenReady
     }
-
-
+    
     private fun releasePlayer() {
         if (simpleExoPlayer != null) {
             playbackPosition = simpleExoPlayer!!.currentPosition

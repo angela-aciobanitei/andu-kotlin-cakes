@@ -9,26 +9,27 @@ import com.ang.acb.baking.data.database.Recipe
 import com.ang.acb.baking.databinding.ItemRecipeBinding
 
 /**
- * See: https://codelabs.developers.google.com/codelabs/kotlin-android-training-interacting-with-items
+ * A custom [ListAdapter] for the [Recipe] list.
  */
-
-class RecipesAdapter(val recipeClickListener: RecipeClickListener) :
-    ListAdapter<Recipe, RecipeViewHolder>(RecipeDiffCallback()) {
-
+class RecipesAdapter(
+    val recipeClickListener: RecipeClickListener
+) : ListAdapter<Recipe, RecipeViewHolder>(RecipeDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
         return RecipeViewHolder.from(parent)
     }
-
 
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
         holder.bind(recipeClickListener,getItem(position))
     }
 }
 
-
-class RecipeViewHolder private constructor(val binding: ItemRecipeBinding)
-    : RecyclerView.ViewHolder(binding.root) {
+/**
+ * A simple ViewHolder that can bind a [Recipe] item.
+ */
+class RecipeViewHolder private constructor(
+    val binding: ItemRecipeBinding
+) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(recipeClickListener: RecipeClickListener, recipe: Recipe) {
         binding.recipe = recipe
@@ -49,8 +50,10 @@ class RecipeViewHolder private constructor(val binding: ItemRecipeBinding)
 
 /**
  * Callback for calculating the diff between two non-null items in a list.
- * Used by ListAdapter to calculate the minimum number of changes between an
- * old list and a new list that's been passed to `submitList()`.
+ *
+ * Used by [ListAdapter] to calculate the minimum number of changes between
+ * and old list and a new list that's been passed to `submitList`.
+ * See: https://codelabs.developers.google.com/codelabs/kotlin-android-training-diffutil-databinding
  */
 class RecipeDiffCallback : DiffUtil.ItemCallback<Recipe>() {
     override fun areItemsTheSame(oldItem: Recipe, newItem: Recipe): Boolean {
@@ -62,9 +65,8 @@ class RecipeDiffCallback : DiffUtil.ItemCallback<Recipe>() {
     }
 }
 
-
 /**
- * Click listener for Recipe items.
+ * Handles [Recipe] item click events.
  */
 class RecipeClickListener(val clickListener: (id:Int?) -> Unit){
     fun onClick(recipe: Recipe) = clickListener(recipe.id)

@@ -18,13 +18,14 @@ import com.ang.acb.baking.utils.autoCleared
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
-
+/**
+ * A [Fragment] that displays a list of recipes.
+ */
 class RecipeListFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    // Use Fragment KTX to init view model
     private val viewModel: RecipeListViewModel by viewModels { viewModelFactory }
     private var binding: FragmentRecipeListBinding by autoCleared()
 

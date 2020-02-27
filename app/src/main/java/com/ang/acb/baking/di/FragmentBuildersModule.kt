@@ -13,7 +13,6 @@ import dagger.android.ContributesAndroidInjector
  */
 @Module
 abstract class FragmentsMainModule {
-
     @ContributesAndroidInjector
     abstract fun contributeRecipeListFragment(): RecipeListFragment
 }
@@ -23,7 +22,6 @@ abstract class FragmentsMainModule {
  */
 @Module
 abstract class FragmentsDetailsModule {
-
     @ContributesAndroidInjector
     abstract fun contributeRecipeDetailsFragment(): RecipeDetailsFragment
 

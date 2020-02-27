@@ -14,18 +14,19 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
 
+/**
+ * The UI Controller for displaying a list of recipes loaded from the network.
+ */
 class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
-
 
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
 
-
     override fun supportFragmentInjector() = dispatchingAndroidInjector
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        // When using Dagger for injecting Activity objects, inject as early as possible.
+        // When using Dagger for injecting Activity objects,
+        // inject as early as possible.
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
