@@ -33,9 +33,9 @@ class RecipeRepository
             override fun saveCallResult(result: List<NetworkRecipe>) {
                 // Save the result of the API response into the database.
                 for (item in result) {
-                    database.recipeDao.insertRecipe(item.recipe())
-                    database.recipeDao.insertIngredients(item.ingredients())
-                    database.recipeDao.insertSteps(item.steps())
+                    database.recipeDao.insertRecipe(item.asRecipe())
+                    database.recipeDao.insertIngredients(item.asIngredients())
+                    database.recipeDao.insertSteps(item.asSteps())
                 }
             }
 

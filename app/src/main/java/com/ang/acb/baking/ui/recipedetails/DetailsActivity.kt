@@ -6,7 +6,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.ang.acb.baking.R
-import com.ang.acb.baking.ui.widget.PreferencesUtils
 import dagger.android.AndroidInjection
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
@@ -54,7 +53,6 @@ class DetailsActivity : AppCompatActivity(), HasSupportFragmentInjector {
                 recipeId, 0, isTwoPane()
             )
         }
-        //supportActionBar?.setDefaultDisplayHomeAsUpEnabled(true)
     }
 
     private fun isTwoPane(): Boolean {

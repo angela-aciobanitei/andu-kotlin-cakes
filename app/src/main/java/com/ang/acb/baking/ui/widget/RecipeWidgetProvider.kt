@@ -8,8 +8,6 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.RemoteViews
 import com.ang.acb.baking.R
-import com.ang.acb.baking.ui.recipedetails.DetailsActivity
-import com.ang.acb.baking.ui.recipedetails.EXTRA_RECIPE_ID
 import com.ang.acb.baking.ui.recipelist.MainActivity
 
 /**

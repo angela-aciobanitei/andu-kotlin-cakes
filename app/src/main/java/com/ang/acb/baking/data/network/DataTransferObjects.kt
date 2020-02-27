@@ -2,6 +2,7 @@ package com.ang.acb.baking.data.network
 
 import com.ang.acb.baking.data.database.Ingredient
 import com.ang.acb.baking.data.database.Recipe
+import com.ang.acb.baking.data.database.RecipeDetails
 import com.ang.acb.baking.data.database.Step
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -45,7 +46,7 @@ data class NetworkIngredient(
 /**
  * Converts recipe details network response to a [Recipe] database object.
  */
-fun NetworkRecipe.recipe(): Recipe {
+fun NetworkRecipe.asRecipe(): Recipe {
     return Recipe(
         id = id,
         name = name,
@@ -58,7 +59,7 @@ fun NetworkRecipe.recipe(): Recipe {
  * Converts recipe details network response to a list of database objects,
  * i.e. an [Ingredient] list.
  */
-fun NetworkRecipe.ingredients(): List<Ingredient>? {
+fun NetworkRecipe.asIngredients(): List<Ingredient>? {
     return ingredients?.map {
         Ingredient(
             ingredientId = 0,
@@ -74,7 +75,7 @@ fun NetworkRecipe.ingredients(): List<Ingredient>? {
  * Converts recipe details network response to a list of database objects,
  * i.e. an [Step] list.
  */
-fun NetworkRecipe.steps(): List<Step>? {
+fun NetworkRecipe.asSteps(): List<Step>? {
     return steps?.map {
         Step(
             stepId = 0,
@@ -88,7 +89,17 @@ fun NetworkRecipe.steps(): List<Step>? {
     }?.toList()
 }
 
+/**
+ * Converts recipe details network response to a list of [RecipeDetails]
+ */
+fun NetworkRecipe.asRecipeDetails(): RecipeDetails {
+    val recipeDetails = RecipeDetails()
+    recipeDetails.recipe = asRecipe()
+    recipeDetails.ingredients = asIngredients()
+    recipeDetails.steps = asSteps()
 
+    return recipeDetails
+}
 
 
 

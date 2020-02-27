@@ -2,7 +2,6 @@ package com.ang.acb.baking.ui.recipedetails
 
 import androidx.fragment.app.FragmentManager
 import com.ang.acb.baking.R
-import timber.log.Timber
 import javax.inject.Inject
 
 /**

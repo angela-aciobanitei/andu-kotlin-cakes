@@ -47,7 +47,6 @@ class RecipeViewHolder private constructor(
     }
 }
 
-
 /**
  * Callback for calculating the diff between two non-null items in a list.
  *

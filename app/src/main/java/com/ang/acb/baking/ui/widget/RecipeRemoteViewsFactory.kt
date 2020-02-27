@@ -2,15 +2,12 @@ package com.ang.acb.baking.ui.widget
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.widget.AdapterView
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService.RemoteViewsFactory
 import com.ang.acb.baking.R
 import com.ang.acb.baking.data.database.RecipeDao
 import com.ang.acb.baking.data.database.RecipeDetails
-import com.ang.acb.baking.ui.recipedetails.DetailsActivity
-import com.ang.acb.baking.ui.recipedetails.EXTRA_RECIPE_ID
 import com.ang.acb.baking.ui.recipelist.MainActivity
 import java.util.*
 import javax.inject.Inject
