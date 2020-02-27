@@ -15,6 +15,7 @@ class RecipeRepository
 @Inject constructor (
     private val appExecutors: AppExecutors,
     private val database: RecipesDatabase,
+    private val recipeDao: RecipeDao,
     private val apiService: ApiService
 ) {
 
@@ -33,9 +34,11 @@ class RecipeRepository
             override fun saveCallResult(result: List<NetworkRecipe>) {
                 // Save the result of the API response into the database.
                 for (item in result) {
-                    database.recipeDao.insertRecipe(item.asRecipe())
-                    database.recipeDao.insertIngredients(item.asIngredients())
-                    database.recipeDao.insertSteps(item.asSteps())
+                    database.runInTransaction {
+                        recipeDao.insertRecipe(item.asRecipe())
+                        recipeDao.insertIngredients(item.asIngredients())
+                        recipeDao.insertSteps(item.asSteps())
+                    }
                 }
             }
 
@@ -45,20 +48,20 @@ class RecipeRepository
             }
 
             override fun loadFromDb(): LiveData<List<RecipeDetails>> {
-                return database.recipeDao.getDetailedRecipes()
+                return recipeDao.getDetailedRecipes()
             }
         }.asLiveData()
     }
 
     fun getRecipeDetails(recipeId: Int): LiveData<RecipeDetails> {
-        return database.recipeDao.getRecipeDetails(recipeId)
+        return recipeDao.getRecipeDetails(recipeId)
     }
 
     fun getRecipeIngredients(recipeId: Int): LiveData<List<Ingredient>> {
-        return database.recipeDao.getRecipeIngredients(recipeId)
+        return recipeDao.getRecipeIngredients(recipeId)
     }
 
     fun getRecipeSteps(recipeId: Int): LiveData<List<Step>> {
-        return database.recipeDao.getRecipeSteps(recipeId)
+        return recipeDao.getRecipeSteps(recipeId)
     }
 }

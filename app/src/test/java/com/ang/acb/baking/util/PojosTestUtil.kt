@@ -1,24 +1,19 @@
 package com.ang.acb.baking.util
 
-import com.ang.acb.baking.data.database.Ingredient
-import com.ang.acb.baking.data.database.Recipe
-import com.ang.acb.baking.data.database.RecipeDetails
-import com.ang.acb.baking.data.database.Step
+import com.ang.acb.baking.data.network.NetworkIngredient
+import com.ang.acb.baking.data.network.NetworkRecipe
+import com.ang.acb.baking.data.network.NetworkStep
 
 object PojosTestUtil {
 
-    fun createIngredientsList(
+    fun createIngredients(
         count: Int,
-        ingredientId: Int,
-        recipeId: Int,
         quantity: Double,
         measure: String,
         ingredient: String
-    ): List<Ingredient> {
+    ): List<NetworkIngredient> {
         return (0 until count).map {
-            Ingredient(
-                ingredientId = ingredientId + it,
-                recipeId = recipeId,
+            NetworkIngredient(
                 quantity = quantity + it,
                 measure = measure + it,
                 ingredient = ingredient + it
@@ -26,21 +21,17 @@ object PojosTestUtil {
         }
     }
 
-    fun createStepsList(
+    fun createSteps(
         count:Int,
         stepId: Int,
-        recipeId: Int,
-        index: Int,
         shortDescription: String?,
         description: String?,
         videoURL: String?,
         thumbnailURL: String?
-    ): List<Step> {
+    ): List<NetworkStep> {
         return (0 until count).map {
-            Step(
-                stepId = stepId + it,
-                recipeId = recipeId,
-                index = index + it,
+            NetworkStep(
+                id = stepId + it,
                 shortDescription = shortDescription + it,
                 description = description + it,
                 videoURL = videoURL + it,
@@ -49,35 +40,36 @@ object PojosTestUtil {
         }
     }
 
-    fun createDetailedRecipe(recipeId: Int): RecipeDetails {
-        val recipeDetails = RecipeDetails()
-        recipeDetails.recipe = Recipe(
-            id = recipeId,
-            name = "recipe name",
-            servings = 5,
-            image = "imageURL"
-        )
-
-        recipeDetails.ingredients = createIngredientsList(
+    private fun createNetworkRecipe(recipeId: Int): NetworkRecipe {
+        val ingredients = createIngredients(
             count = 5,
-            ingredientId = 0,
-            recipeId = recipeId,
             quantity = 1.0,
             measure = "grams",
             ingredient = "ingredient"
         )
 
-        recipeDetails.steps = createStepsList(
+       val steps = createSteps(
             count = 5,
             stepId = 0,
-            recipeId = recipeId,
-            index = 0,
             shortDescription = "shortDescription",
             description = "description",
             videoURL = "videoURL",
             thumbnailURL = "thumbnailURL"
         )
 
-        return recipeDetails
+        return NetworkRecipe(
+            id = recipeId,
+            name = "recipe name",
+            servings = 5,
+            image = "imageURL",
+            ingredients = ingredients,
+            steps = steps
+        )
+    }
+
+    fun createNetworkRecipes(count: Int): List<NetworkRecipe> {
+        return (0 until count).map {
+            createNetworkRecipe(it)
+        }
     }
 }

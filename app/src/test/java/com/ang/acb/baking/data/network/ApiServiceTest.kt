@@ -74,28 +74,36 @@ class ApiServiceTest {
         assertThat(recipes.size, `is`(4))
 
         val firstRecipe = recipes[0]
-        assertThat(firstRecipe.recipe?.id, `is`(1))
         assertThat(firstRecipe.recipe?.name, `is`("Nutella Pie"))
-        assertThat(firstRecipe.recipe?.servings, `is`(8))
-        assertThat(firstRecipe.recipe?.image, `is`(""))
+        assertThat(firstRecipe.ingredients, notNullValue())
+        assertThat(firstRecipe.ingredients?.size, `is`(9))
+        assertThat(firstRecipe.steps, notNullValue())
+        assertThat(firstRecipe.steps?.size, `is`(7))
 
         val secondRecipe = recipes[1]
         assertThat(secondRecipe.recipe?.id, `is`(2))
         assertThat(secondRecipe.recipe?.name, `is`("Brownies"))
-        assertThat(secondRecipe.recipe?.servings, `is`(8))
-        assertThat(secondRecipe.recipe?.image, `is`(""))
+        assertThat(secondRecipe.ingredients, notNullValue())
+        assertThat(secondRecipe.ingredients?.size, `is`(10))
+        assertThat(secondRecipe.steps, notNullValue())
+        assertThat(secondRecipe.steps?.size, `is`(10))
 
         val thirdRecipe = recipes[2]
         assertThat(thirdRecipe.recipe?.id, `is`(3))
         assertThat(thirdRecipe.recipe?.name, `is`("Yellow Cake"))
-        assertThat(thirdRecipe.recipe?.servings, `is`(8))
-        assertThat(thirdRecipe.recipe?.image, `is`(""))
+        assertThat(thirdRecipe.ingredients, notNullValue())
+        assertThat(thirdRecipe.ingredients?.size, `is`(10))
+        assertThat(thirdRecipe.steps, notNullValue())
+        assertThat(thirdRecipe.steps?.size, `is`(13))
 
         val fourthRecipe = recipes[3]
         assertThat(fourthRecipe.recipe?.id, `is`(4))
         assertThat(fourthRecipe.recipe?.name, `is`("Cheesecake"))
-        assertThat(fourthRecipe.recipe?.servings, `is`(8))
-        assertThat(fourthRecipe.recipe?.image, `is`(""))
+        assertThat(fourthRecipe.ingredients, notNullValue())
+        assertThat(fourthRecipe.ingredients?.size, `is`(9))
+        assertThat(fourthRecipe.steps, notNullValue())
+        assertThat(fourthRecipe.steps?.size, `is`(13))
+
     }
 
     private fun enqueueResponse(fileName: String, headers: Map<String, String> = emptyMap()) {
