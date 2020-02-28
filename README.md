@@ -1,4 +1,7 @@
 # Baking App
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c98b420d9a1248259b01b9ca59ca8d98)](https://app.codacy.com/manual/angela-aciobanitei/andu-kotlin-cakes?utm_source=github.com&utm_medium=referral&utm_content=angela-aciobanitei/andu-kotlin-cakes&utm_campaign=Badge_Grade_Dashboard)
+
 An app that displays recipes from a network resource. When user selects a recipe, its ingredients and video-guided steps are shown.
 
 ## What Will I Learn?
