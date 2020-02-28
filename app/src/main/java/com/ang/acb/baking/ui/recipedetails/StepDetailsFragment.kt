@@ -30,6 +30,7 @@ import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 import dagger.android.support.AndroidSupportInjection
+import java.util.*
 import javax.inject.Inject
 
 
@@ -278,12 +279,11 @@ class StepDetailsFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.home -> {
-                (activity as DetailsActivity).onBackPressed()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
+        // https://stackoverflow.com/questions/10108774/how-to-implement-the-android-actionbar-back-button
+        if (item.itemId == android.R.id.home) {
+            requireActivity().onBackPressed()
+            return true
         }
+        return super.onOptionsItemSelected(item)
     }
 }

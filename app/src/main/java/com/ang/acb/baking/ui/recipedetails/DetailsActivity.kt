@@ -1,9 +1,11 @@
 package com.ang.acb.baking.ui.recipedetails
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NavUtils
 import androidx.fragment.app.Fragment
 import com.ang.acb.baking.R
 import dagger.android.AndroidInjection
@@ -53,6 +55,8 @@ class DetailsActivity : AppCompatActivity(), HasSupportFragmentInjector {
                 recipeId, 0, isTwoPane()
             )
         }
+
+        supportActionBar?.setDisplayHomeAsUpEnabled (true)
     }
 
     private fun isTwoPane(): Boolean {
@@ -66,5 +70,15 @@ class DetailsActivity : AppCompatActivity(), HasSupportFragmentInjector {
             R.string.detail_error_message,
             Toast.LENGTH_SHORT)
                 .show()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.home -> {
+                NavUtils.navigateUpFromSameTask(this)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }
