@@ -11,8 +11,7 @@ import javax.inject.Singleton
  * Repository module for handling data operations.
  */
 @Singleton
-class RecipeRepository
-@Inject constructor (
+class RecipeRepository @Inject constructor (
     private val appExecutors: AppExecutors,
     private val database: RecipesDatabase,
     private val recipeDao: RecipeDao,
@@ -58,10 +57,10 @@ class RecipeRepository
     }
 
     fun getRecipeIngredients(recipeId: Int): LiveData<List<Ingredient>> {
-        return recipeDao.getRecipeIngredients(recipeId)
+        return recipeDao.getIngredients(recipeId)
     }
 
     fun getRecipeSteps(recipeId: Int): LiveData<List<Step>> {
-        return recipeDao.getRecipeSteps(recipeId)
+        return recipeDao.getSteps(recipeId)
     }
 }

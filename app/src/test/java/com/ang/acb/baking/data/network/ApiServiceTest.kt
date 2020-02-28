@@ -106,6 +106,26 @@ class ApiServiceTest {
 
     }
 
+    @Test
+    fun getDifferentRecipeList() {
+        enqueueResponse("baking_different.json")
+        val response =
+            (getValue(apiService.getAllRecipes()) as ApiSuccessResponse).body
+
+        val recipes: List<RecipeDetails> = response.map {
+            it.asRecipeDetails()
+        }
+        assertThat(recipes, notNullValue())
+        assertThat(recipes.size, `is`(3))
+
+        assertThat(recipes[0].recipe?.name, `is`("Cheesecake"))
+        assertThat(recipes[0].recipe?.servings, `is`(5))
+        assertThat(recipes[1].recipe?.name, `is`("Yellow Cake"))
+        assertThat(recipes[1].recipe?.servings, `is`(6))
+        assertThat(recipes[2].recipe?.name, `is`("Brownies"))
+        assertThat(recipes[2].recipe?.servings, `is`(7))
+    }
+
     private fun enqueueResponse(fileName: String, headers: Map<String, String> = emptyMap()) {
         val inputStream = javaClass.classLoader?.getResourceAsStream("api-response/$fileName")
         val source = inputStream?.source()?.buffer()

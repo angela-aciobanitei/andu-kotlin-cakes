@@ -17,6 +17,7 @@ import org.junit.Rule
 
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito
+import timber.log.Timber
 
 /**
  * Tests the [RecipeRepository].
@@ -44,7 +45,6 @@ class RecipeRepositoryTest {
             recipeDao = dao,
             apiService = service)
     }
-
 
     @Test
     fun loadMovieDetailsFromNetwork() {
