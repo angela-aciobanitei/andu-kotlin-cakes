@@ -1,6 +1,6 @@
 # Baking App
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c98b420d9a1248259b01b9ca59ca8d98)](https://app.codacy.com/manual/angela-aciobanitei/andu-kotlin-cakes?utm_source=github.com&utm_medium=referral&utm_content=angela-aciobanitei/andu-kotlin-cakes&utm_campaign=Badge_Grade_Dashboard)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c98b420d9a1248259b01b9ca59ca8d98)](https://app.codacy.com/manual/angela-aciobanitei/andu-kotlin-cakes?utm_source=github.com&utm_medium=referral&utm_content=angela-aciobanitei/andu-kotlin-cakes&utm_campaign=Badge_Grade_Dashboard) [![codebeat badge](https://codebeat.co/badges/a73e69bd-53fd-41ad-8493-7cd5971a7bd5)](https://codebeat.co/projects/github-com-angela-aciobanitei-andu-kotlin-cakes-master)
 
 An app that displays recipes from a network resource. When user selects a recipe, its ingredients and video-guided steps are shown.
 
