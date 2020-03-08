@@ -16,8 +16,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_check_circle_black_24dp"
-            android:drawablePadding="8dp"
             android:fontFamily="@font/jacques_francois"
             android:padding="@dimen/padding_mini"
             android:text="@{@string/ingredient_item(ingredient.quantity, ingredient.measure, ingredient.ingredient )}"
